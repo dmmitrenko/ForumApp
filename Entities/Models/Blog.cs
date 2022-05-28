@@ -17,7 +17,7 @@ namespace Entities.Models
         [MinLength(5, ErrorMessage = "Minimum length for title is 5 characters")]
         public string? Text { get; set; }
 
-        public DateTime DateAdded { get; set; }
+        public DateTime DateAdded { get{ return DateTime.Now; } }
 
         [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
