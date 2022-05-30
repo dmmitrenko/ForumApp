@@ -19,7 +19,7 @@ namespace ForumApp.Presentation.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id:guid")]
+        [HttpGet("{id:guid}")]
         public IActionResult GetUser(Guid id)
         {
             var user = _service.UserService.GetUser(id, trackChanges: false);

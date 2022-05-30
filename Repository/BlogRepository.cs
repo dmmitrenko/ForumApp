@@ -18,7 +18,7 @@ namespace Repository
         public IEnumerable<Blog> GetBlogs(Guid id, bool trackChanges)
         {
             return FindByCondition(b => b.UserId.Equals(id), trackChanges)
-                .OrderBy(b => b.DateAdded).ToList();
+                .OrderBy(b => b.Title).ToList();
         }
     }
 }
