@@ -20,5 +20,12 @@ namespace ForumApp.Presentation.Controllers
             var blogs = _service.BLogService.GetBlogs(userId, trackChanges: false);
             return Ok(blogs);
         }
+
+        [HttpGet("{id:guid}")]
+        public IActionResult GetBlogForUser(Guid userId, Guid id)
+        {
+            var blog = _service.BLogService.GetBlog(userId, id, trackChanges: false);
+            return Ok(blog);
+        }
     }
 }

@@ -9,6 +9,12 @@ namespace Repository
         {
         }
 
+        public Blog GetBlog(Guid userId, Guid id, bool trackChanges)
+        {
+            return FindByCondition(item => item.UserId.Equals(userId) && item.Id.Equals(id),
+                trackChanges).SingleOrDefault()!;
+        }
+
         public IEnumerable<Blog> GetBlogs(Guid id, bool trackChanges)
         {
             return FindByCondition(b => b.UserId.Equals(id), trackChanges)

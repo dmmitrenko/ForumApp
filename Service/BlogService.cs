@@ -32,5 +32,19 @@ namespace Service
 
             return blogsDto;
         }
+
+        public BlogDto GetBlog(Guid userId, Guid id, bool trackChanges)
+        {
+            var user = _repository.Users.GetUserById(userId, trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            var blogDb = _repository.Blogs.GetBlog(userId,id,trackChanges);
+            if (blogDb is null)
+                throw new BlogNotFoundException(id);
+
+            var blog = _mapper.Map<BlogDto>(blogDb);
+            return blog;
+        }
     }
 }
