@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DTO;
@@ -33,7 +34,8 @@ namespace Service
         {
             var user = _repository.Users.GetUserById(id, trackChanges);
 
-            //if null
+            if (user is null)
+                throw new UserNotFoundException(id);
 
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
