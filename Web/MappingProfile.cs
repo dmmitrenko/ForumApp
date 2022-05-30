@@ -9,7 +9,9 @@ namespace Web
         public MappingProfile()
         {
             CreateMap<User, UserDto>().ForMember(c => c.DateRegistration,
-                opt => opt.MapFrom(x => x.DateRegistration.ToString()));
+                opt => opt.MapFrom(x => x.DateRegistration.ToString()))
+                .ForMember(c => c.FullName, 
+                opt => opt.MapFrom(x => x.Name + x.Surname));
         }
     }
 }

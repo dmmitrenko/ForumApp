@@ -28,5 +28,15 @@ namespace Service
 
             return usersDto;
         }
+
+        public UserDto GetUser(Guid id, bool trackChanges)
+        {
+            var user = _repository.Users.GetUserById(id, trackChanges);
+
+            //if null
+
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
     }
 }
