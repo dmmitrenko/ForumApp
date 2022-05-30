@@ -1,17 +1,21 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Service.Contracts;
 
 namespace Service
 {
     public class BlogService : IBlogService
     {
-        private IRepositoryManager repositoryManager;
-        private ILoggerManager logger;
+        private IRepositoryManager _repositoryManager;
+        private ILoggerManager _logger;
+        private readonly IMapper _mapper;
 
-        public BlogService(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public BlogService(IRepositoryManager repositoryManager, ILoggerManager logger,
+            IMapper mapper)
         {
-            this.repositoryManager = repositoryManager;
-            this.logger = logger;
+            _repositoryManager = repositoryManager;
+            _logger = logger;
+            _mapper = mapper;
         }
     }
 }

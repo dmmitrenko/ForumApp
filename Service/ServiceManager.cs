@@ -1,20 +1,22 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Service.Contracts;
 
 namespace Service
 {
-    public class ServiceManager : IServiceManager
+    public sealed class ServiceManager : IServiceManager
     {
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IBlogService> _blogService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger,
+            IMapper mapper)
         {
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger));
-            _blogService = new Lazy<IBlogService>(() => new BlogService(repositoryManager, logger));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, logger, mapper));
+            _blogService = new Lazy<IBlogService>(() => new BlogService(repositoryManager, logger, mapper));
         }
 
-        public IUserService UserService => throw new NotImplementedException();
+        public IUserService UserService => _userService.Value;
 
-        public IBlogService BLogService => throw new NotImplementedException();
+        public IBlogService BLogService => _blogService.Value;
     }
 }
