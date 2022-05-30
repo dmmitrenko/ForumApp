@@ -10,8 +10,11 @@ namespace Web
         {
             CreateMap<User, UserDto>().ForMember(c => c.DateRegistration,
                 opt => opt.MapFrom(x => x.DateRegistration.ToString()))
-                .ForMember(c => c.FullName, 
+                .ForMember(src => src.FullName, 
                 opt => opt.MapFrom(x => x.Name + x.Surname));
+
+            CreateMap<Blog, BlogDto>().ForMember(c => c.DateAdded,
+                opt => opt.MapFrom(src => src.DateAdded.ToString()));
         }
     }
 }
