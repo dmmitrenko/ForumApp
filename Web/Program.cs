@@ -1,5 +1,6 @@
 using Web.Extensions;
 using NLog;
+using Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
+
+if (app.Environment.IsProduction())
+    app.UseHsts();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -14,16 +14,9 @@ namespace ForumApp.Presentation.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
-            try
-            {
-                var users = _service.UserService.GetAllUsers(trackChanges: false);
+            var users = _service.UserService.GetAllUsers(trackChanges: false);
 
-                return Ok(users);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            return Ok(users);
         }
     }
 }
