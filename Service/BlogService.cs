@@ -23,7 +23,7 @@ namespace Service
 
         public IEnumerable<BlogDto> GetBlogs(Guid userId, bool trackChanges)
         {
-            var user = _repository.Users.GetUserById(userId, trackChanges);
+            var user = _repository.Users.GetUser(userId, trackChanges);
             
             if (user is null)
                 throw new UserNotFoundException(userId);
@@ -36,7 +36,7 @@ namespace Service
 
         public BlogDto GetBlog(Guid userId, Guid id, bool trackChanges)
         {
-            var user = _repository.Users.GetUserById(userId, trackChanges);
+            var user = _repository.Users.GetUser(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
@@ -50,7 +50,7 @@ namespace Service
 
         public BlogDto CreateBlogForUser(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges)
         {
-            var user = _repository.Users.GetUserById(userId, trackChanges);
+            var user = _repository.Users.GetUser(userId, trackChanges);
 
             if (user is null)
                 throw new UserNotFoundException(userId);

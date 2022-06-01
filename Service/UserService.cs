@@ -42,9 +42,23 @@ namespace Service
             return usersDto;
         }
 
+        public IEnumerable<UserDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            if (ids is null)
+                throw new IdParametersBadRequestException();
+
+            var userEntities = _repository.Users.GetByIds(ids, trackChanges);
+            if (ids.Count() != userEntities.Count())
+                throw new CollectionByIdsBadRequestException();
+
+            var usersToReturn = _mapper.Map<IEnumerable<UserDto>>(userEntities);
+            
+            return usersToReturn;    
+        }
+
         public UserDto GetUser(Guid id, bool trackChanges)
         {
-            var user = _repository.Users.GetUserById(id, trackChanges);
+            var user = _repository.Users.GetUser(id, trackChanges);
 
             if (user is null)
                 throw new UserNotFoundException(id);

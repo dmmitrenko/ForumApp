@@ -7,5 +7,6 @@ namespace Service.Contracts
         IEnumerable<UserDto> GetAllUsers(bool trackChanges);
         UserDto GetUser(Guid id, bool trackChanges);
         UserDto CreateUser(UserForCreationDto user);
+        IEnumerable<UserDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
     }
 }

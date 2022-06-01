@@ -16,7 +16,12 @@ namespace Repository
             return FindAll(trackChanges).OrderBy(c => c.Name).ToList();
         }
 
-        public User GetUserById(Guid id, bool trackChanges)
+        public IEnumerable<User> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+        }
+
+        public User GetUser(Guid id, bool trackChanges)
         {
             return FindByCondition(u => u.Id.Equals(id), trackChanges)
                 .SingleOrDefault()!;

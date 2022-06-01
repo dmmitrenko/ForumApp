@@ -28,6 +28,14 @@ namespace ForumApp.Presentation.Controllers
             return Ok(user);
         }
 
+        [HttpGet("collection/({ids})", Name = "UserCollection")]
+        public IActionResult GetUserCollection(IEnumerable<Guid> ids)
+        {
+            var users = _service.UserService.GetByIds(ids, trackChanges: false);
+
+            return Ok(users);
+        }
+
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserForCreationDto user)
         {
