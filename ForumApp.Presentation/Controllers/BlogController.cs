@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DTO;
 
 namespace ForumApp.Presentation.Controllers
 {
@@ -21,11 +22,22 @@ namespace ForumApp.Presentation.Controllers
             return Ok(blogs);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "GetBlogForUser")]
         public IActionResult GetBlogForUser(Guid userId, Guid id)
         {
             var blog = _service.BLogService.GetBlog(userId, id, trackChanges: false);
             return Ok(blog);
+        }
+
+        [HttpPost]
+        public IActionResult CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
+        {
+            if (blog is null)
+                return BadRequest("BlogForCreationDto object is null");
+
+            var blogToReturn = _service.BLogService.CreateBlogForUser(userId, blog, trackChanges: false);
+
+            return CreatedAtRoute("GetBlogForUser", new { userId, id = blogToReturn.Id }, blogToReturn);
         }
     }
 }

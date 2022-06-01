@@ -9,6 +9,12 @@ namespace Repository
         {
         }
 
+        public void CreateBlogForUser(Guid userId, Blog blog)
+        {
+            blog.UserId = userId;
+            Create(blog);
+        }
+
         public Blog GetBlog(Guid userId, Guid id, bool trackChanges)
         {
             return FindByCondition(item => item.UserId.Equals(userId) && item.Id.Equals(id),

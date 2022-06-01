@@ -17,6 +17,7 @@ namespace Web
                 opt => opt.MapFrom(src => src.DateAdded.ToString()));
 
             CreateMap<UserForCreationDto, User>();
+            CreateMap<BlogForCreationDto, Blog>();
         }
     }
 }

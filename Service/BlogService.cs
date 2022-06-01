@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DTO;
 
@@ -45,6 +46,23 @@ namespace Service
 
             var blog = _mapper.Map<BlogDto>(blogDb);
             return blog;
+        }
+
+        public BlogDto CreateBlogForUser(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges)
+        {
+            var user = _repository.Users.GetUserById(userId, trackChanges);
+
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            var blogEntity = _mapper.Map<Blog>(blogForCreation);
+
+            _repository.Blogs.CreateBlogForUser(userId, blogEntity);
+            _repository.Save();
+
+            var blogToReturn = _mapper.Map<BlogDto>(blogEntity);
+
+            return blogToReturn;
         }
     }
 }
