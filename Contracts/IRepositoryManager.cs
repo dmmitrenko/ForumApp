@@ -4,6 +4,7 @@
     {
         IUserRepository Users { get; }
         IBlogRepository Blogs { get; }
+        ICommentRepository Comments { get; }
         void Save();
     }
 }

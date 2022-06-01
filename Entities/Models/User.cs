@@ -18,6 +18,12 @@ namespace Entities.Models
         [MaxLength(15, ErrorMessage = "Maximum length for nickname is 15 characters.")]
         public string? Nickname { get; set; }
 
-        public DateTime DateRegistration { get { return DateTime.Now; } }
+        public DateTime DateRegistration { get; } = DateTime.Now; 
+        public Role Role { get; set; }
+        public string? Email { get; set; }
+
+        // navigation props
+        public List<Blog>? Blogs { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }

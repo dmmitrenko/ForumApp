@@ -8,12 +8,16 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Blog> builder)
         {
-            builder.HasData(
+            builder.HasMany(n => n.Comments)
+                .WithOne(o => o.Blog)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+                builder.HasData(
                 new Blog
                 {
                     Id = new Guid("2409f6fa-464d-4db7-ba7f-3129b62ab0e1"),
                     Title = "About me",
-                    Text = "I am a student",
+                    Text = "Bye world!",
                     UserId = new Guid("11b3a2fc-8d75-45de-9990-00d5d5159c2d"),
                 },
 

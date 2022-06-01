@@ -12,6 +12,7 @@ namespace Repository
         private readonly RepositoryContext _context;
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IBlogRepository> _blogRepository;
+        private readonly Lazy<ICommentRepository> _commentRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
@@ -20,11 +21,15 @@ namespace Repository
                 new Lazy<IUserRepository>(() => new UserRepository(context));
             _blogRepository =
                 new Lazy<IBlogRepository>(() => new BlogRepository(context));
+            _commentRepository =
+                new Lazy<ICommentRepository>(() => new CommentRepository(context));
         }
 
         public IUserRepository Users => _userRepository.Value;
 
         public IBlogRepository Blogs => _blogRepository.Value;
+
+        public ICommentRepository Comments => _commentRepository.Value;
 
         public void Save() => _context.SaveChanges();
     }

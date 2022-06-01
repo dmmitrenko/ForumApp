@@ -14,9 +14,11 @@ namespace Repository
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new BlogConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
         }
 
         public DbSet<User>? Users { get; set; }
         public DbSet<Blog>? Blogs { get; set; }
+        public DbSet<Comment>? Comments { get; set; }
     }
 }
