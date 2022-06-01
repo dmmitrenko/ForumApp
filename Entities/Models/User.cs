@@ -18,7 +18,7 @@ namespace Entities.Models
         [MaxLength(15, ErrorMessage = "Maximum length for nickname is 15 characters.")]
         public string? Nickname { get; set; }
 
-        public DateTime DateRegistration { get; } = DateTime.Now;
+        public DateTime DateRegistration { get; set; } = DateTime.Now;
         public Role Role { get; set; } = Role.User;
         public string? Email { get; set; }
 

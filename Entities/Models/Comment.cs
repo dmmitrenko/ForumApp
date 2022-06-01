@@ -7,7 +7,7 @@ namespace Entities.Models
         [Column("CommentId")]
         public Guid Id { get; set; }
 
-        public DateTime DateAdded { get; } = DateTime.Now;
+        public DateTime DateAdded { get; set; } = DateTime.Now;
         public DateTime LastChange { get; set; } = DateTime.Now;
         public string? Text { get; set; }
 
