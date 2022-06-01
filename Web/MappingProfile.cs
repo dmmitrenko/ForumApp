@@ -15,6 +15,8 @@ namespace Web
 
             CreateMap<Blog, BlogDto>().ForMember(c => c.DateAdded,
                 opt => opt.MapFrom(src => src.DateAdded.ToString()));
+
+            CreateMap<UserForCreationDto, User>();
         }
     }
 }

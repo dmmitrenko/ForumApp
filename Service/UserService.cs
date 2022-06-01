@@ -21,6 +21,18 @@ namespace Service
             _mapper = mapper;
         }
 
+        public UserDto CreateUser(UserForCreationDto user)
+        {
+            var userEntity = _mapper.Map<User>(user);
+
+            _repository.Users.CreateUser(userEntity);
+            _repository.Save();
+
+            var userToReturn = _mapper.Map<UserDto>(userEntity);
+
+            return userToReturn;
+        }
+
         public IEnumerable<UserDto> GetAllUsers(bool trackChanges)
         {
             var users = _repository.Users.GetAllUsers(trackChanges);
