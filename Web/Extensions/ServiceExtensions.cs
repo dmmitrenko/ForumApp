@@ -37,6 +37,12 @@ namespace Web.Extensions
             services.AddDbContext<RepositoryContext>(opt => 
             opt.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
         }
+
+        public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
+        {
+            return builder.AddMvcOptions(config => 
+                config.OutputFormatters.Add(new CsvFormatter()));
+        }
             
     }
 }
