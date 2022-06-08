@@ -47,5 +47,17 @@ namespace ForumApp.Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
+        {
+            if (blog is null)
+                return BadRequest();
+
+            _service.BLogService.UpdateBlogForUser(userId, id, blog, 
+                userTrackChanges: false, blogTrackChanges: true);
+
+            return NoContent();    
+        }
     }
 }

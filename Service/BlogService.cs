@@ -78,5 +78,20 @@ namespace Service
             _repository.Blogs.DeleteBlog(blogForUser);
             _repository.Save();
         }
+
+        public void UpdateBlogForUser(Guid userId, Guid id, BlogForUpdateDto blogForUpdate, 
+            bool userTrackChanges, bool blogTrackChanges)
+        {
+            var user = _repository.Users.GetUser(userId, userTrackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            var blogEntity = _repository.Blogs.GetBlog(userId, id, blogTrackChanges);
+            if (blogEntity is null)
+                throw new BlogNotFoundException(id);
+
+            _mapper.Map(blogForUpdate, blogEntity);
+            _repository.Save();
+        }
     }
 }
