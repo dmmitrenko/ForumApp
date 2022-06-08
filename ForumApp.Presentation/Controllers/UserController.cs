@@ -46,5 +46,13 @@ namespace ForumApp.Presentation.Controllers
 
             return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
         }
+
+        [HttpPost("collection")]
+        public IActionResult CreateUserCollection([FromBody] IEnumerable<UserForCreationDto> userCollection)
+        {
+            var result = _service.UserService.CreateUserCollection(userCollection);
+
+            return CreatedAtRoute("UserCollection", new {result.ids}, result.users);
+        }
     }
 }

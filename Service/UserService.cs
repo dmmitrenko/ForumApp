@@ -33,6 +33,26 @@ namespace Service
             return userToReturn;
         }
 
+        public (IEnumerable<UserDto> users, string ids) CreateUserCollection
+            (IEnumerable<UserForCreationDto> userCollection)
+        {
+            if (userCollection is null)
+                throw new UserCollectionBadRequest();
+
+            var userEntities = _mapper.Map<IEnumerable<User>>(userCollection);
+            foreach (var user in userEntities)
+            {
+                _repository.Users.CreateUser(user);
+            }
+
+            _repository.Save();
+
+            var userCollectionToReturn = _mapper.Map<IEnumerable<UserDto>>(userEntities);
+            var ids = string.Join(",", userCollectionToReturn.Select(u => u.Id));
+
+            return (users: userCollectionToReturn, ids: ids);
+        }
+
         public IEnumerable<UserDto> GetAllUsers(bool trackChanges)
         {
             var users = _repository.Users.GetAllUsers(trackChanges);
