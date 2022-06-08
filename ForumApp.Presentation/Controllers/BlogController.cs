@@ -39,5 +39,13 @@ namespace ForumApp.Presentation.Controllers
 
             return CreatedAtRoute("GetBlogForUser", new { userId, id = blogToReturn.Id }, blogToReturn);
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteBlogForUser(Guid userId, Guid id)
+        {
+            _service.BLogService.DeleteBlogForUser(userId, id, trackChanges: false);
+
+            return NoContent();
+        }
     }
 }

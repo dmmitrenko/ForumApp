@@ -64,5 +64,19 @@ namespace Service
 
             return blogToReturn;
         }
+
+        public void DeleteBlogForUser(Guid userId, Guid id, bool trackChanges)
+        {
+            var user = _repository.Users.GetUser(userId, trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            var blogForUser = _repository.Blogs.GetBlog(userId, id, trackChanges);
+            if (blogForUser is null)
+                throw new BlogNotFoundException(id);
+
+            _repository.Blogs.DeleteBlog(blogForUser);
+            _repository.Save();
+        }
     }
 }

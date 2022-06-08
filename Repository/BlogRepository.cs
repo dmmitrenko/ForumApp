@@ -15,6 +15,9 @@ namespace Repository
             Create(blog);
         }
 
+        public void DeleteBlog(Blog blog) => Delete(blog);
+        
+
         public Blog GetBlog(Guid userId, Guid id, bool trackChanges)
         {
             return FindByCondition(item => item.UserId.Equals(userId) && item.Id.Equals(id),
