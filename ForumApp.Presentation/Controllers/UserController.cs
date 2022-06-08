@@ -64,5 +64,16 @@ namespace ForumApp.Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
+        {
+            if (user is null)
+                return BadRequest("UserForUpdateDto object is null");
+
+            _service.UserService.UpdateUser(id, user, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }

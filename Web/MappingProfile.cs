@@ -19,6 +19,7 @@ namespace Web
             CreateMap<UserForCreationDto, User>();
             CreateMap<BlogForCreationDto, Blog>();
             CreateMap<BlogForUpdateDto, Blog>();
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }

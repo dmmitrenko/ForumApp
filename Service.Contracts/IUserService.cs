@@ -11,5 +11,6 @@ namespace Service.Contracts
         (IEnumerable<UserDto> users, string ids) CreateUserCollection
             (IEnumerable<UserForCreationDto> userCollection);
         void DeleteUser(Guid userId, bool trackChanges);
+        void UpdateUser(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges);
     }
 }

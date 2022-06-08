@@ -96,5 +96,15 @@ namespace Service
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }
+
+        public void UpdateUser(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges)
+        {
+            var userEntity = _repository.Users.GetUser(userId, trackChanges);
+            if (userEntity is null)
+                throw new UserNotFoundException(userId);
+
+            _mapper.Map(userForUpdate, userEntity);
+            _repository.Save();
+        }
     }
 }
