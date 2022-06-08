@@ -53,6 +53,16 @@ namespace Service
             return (users: userCollectionToReturn, ids: ids);
         }
 
+        public void DeleteUser(Guid userId, bool trackChanges)
+        {
+            var user = _repository.Users.GetUser(userId, trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            _repository.Users.DeleteUser(user);
+            _repository.Save();
+        }
+
         public IEnumerable<UserDto> GetAllUsers(bool trackChanges)
         {
             var users = _repository.Users.GetAllUsers(trackChanges);

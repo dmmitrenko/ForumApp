@@ -56,5 +56,13 @@ namespace ForumApp.Presentation.Controllers
 
             return CreatedAtRoute("UserCollection", new {result.ids}, result.users);
         }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult DeleteUser(Guid id)
+        {
+            _service.UserService.DeleteUser(id, trackChanges: false);
+
+            return NoContent();
+        }
     }
 }

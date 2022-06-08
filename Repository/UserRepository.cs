@@ -10,7 +10,9 @@ namespace Repository
         }
 
         public void CreateUser(User user) => Create(user);
-        
+
+        public void DeleteUser(User user) => Delete(user);
+
         public IEnumerable<User> GetAllUsers(bool trackChanges)
         {
             return FindAll(trackChanges).OrderBy(c => c.Name).ToList();
