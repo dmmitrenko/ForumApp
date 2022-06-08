@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ForumApp.Presentation.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTO;
 
@@ -29,7 +30,8 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpGet("collection/({ids})", Name = "UserCollection")]
-        public IActionResult GetUserCollection(IEnumerable<Guid> ids)
+        public IActionResult GetUserCollection([ModelBinder(BinderType =
+            typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
         {
             var users = _service.UserService.GetByIds(ids, trackChanges: false);
 
