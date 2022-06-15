@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTO;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace ForumApp.Presentation.Controllers
 {
@@ -18,11 +20,15 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBlogsForUser(Guid userId)
+        public async Task<IActionResult> GetBlogsForUser(Guid userId,
+            [FromQuery] BlogParameters blogParameters)
         {
-            var blogs = 
-                await _service.BLogService.GetBlogsAsync(userId, trackChanges: false);
-            return Ok(blogs);
+            var pagedResult = 
+                await _service.BLogService.GetBlogsAsync(userId, blogParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.metaData);
         }
 
         [HttpGet("{id:guid}", Name = "GetBlogForUser")]

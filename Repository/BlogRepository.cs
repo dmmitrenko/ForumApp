@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.RequestFeatures;
 
 namespace Repository
 {
@@ -25,10 +26,19 @@ namespace Repository
                 trackChanges).SingleOrDefaultAsync()!;
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogsAsync(Guid id, bool trackChanges)
+        public async Task<PagedList<Blog>> GetBlogsAsync(Guid id, BlogParameters blogParameters, bool trackChanges)
         {
-            return await FindByCondition(b => b.UserId.Equals(id), trackChanges)
-                .OrderBy(b => b.Title).ToListAsync();
+            var blogs = await FindByCondition(b => b.UserId.Equals(id), trackChanges)
+                .OrderBy(b => b.Title)
+                .Skip((blogParameters.PageNumber - 1) * blogParameters.PageSize)
+                .Take(blogParameters.PageSize)
+                .ToListAsync();
+
+            var count = await FindByCondition(n => n.UserId.Equals(id), trackChanges)
+                .CountAsync();
+
+            return new PagedList<Blog>(blogs, count, 
+                blogParameters.PageNumber, blogParameters.PageSize);
         }
     }
 }

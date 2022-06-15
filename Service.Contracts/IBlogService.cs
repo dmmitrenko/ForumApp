@@ -1,11 +1,12 @@
 ﻿using Entities.Models;
 using Shared.DTO;
+using Shared.RequestFeatures;
 
 namespace Service.Contracts
 {
     public interface IBlogService
     {
-        Task<IEnumerable<BlogDto>> GetBlogsAsync(Guid userId, bool trackChanges);
+        Task<(IEnumerable<BlogDto> blogs, MetaData metaData)> GetBlogsAsync(Guid userId, BlogParameters blogParameters, bool trackChanges);
         Task<BlogDto> GetBlogAsync(Guid userId, Guid id, bool trackChanges);
         Task<BlogDto> CreateBlogForUserAsync(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges);
         Task DeleteBlogForUserAsync(Guid userId, Guid id, bool trackChanges);

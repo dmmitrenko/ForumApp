@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DTO;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -21,14 +22,17 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BlogDto>> GetBlogsAsync(Guid userId, bool trackChanges)
+        public async Task<(IEnumerable<BlogDto> blogs, MetaData metaData)> GetBlogsAsync(
+            Guid userId, BlogParameters blogParameters, bool trackChanges)
         {
             await CheckIfUserExists(userId, trackChanges);
-            
-            var blogsFromDb = await _repository.Blogs.GetBlogsAsync(userId, trackChanges);
-            var blogsDto = _mapper.Map<IEnumerable<BlogDto>>(blogsFromDb);
 
-            return blogsDto;
+            var blogsWithMetaData = 
+                await _repository.Blogs.GetBlogsAsync(userId, blogParameters, trackChanges);
+
+            var blogsDto = _mapper.Map<IEnumerable<BlogDto>>(blogsWithMetaData);
+
+            return (blogs: blogsDto, metaData: blogsWithMetaData.MetaData)!;
         }
 
         public async Task<BlogDto> GetBlogAsync(Guid userId, Guid id, bool trackChanges)
