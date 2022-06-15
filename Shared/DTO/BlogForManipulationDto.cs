@@ -4,7 +4,9 @@ namespace Shared.DTO
 {
     public abstract record BlogForManipulationDto
     {
-        [Range(5, 30, ErrorMessage = "Title is required and it can't be lower than 5.")]
+        [Required(ErrorMessage = "Post title is a required field.")]
+        [MinLength(5, ErrorMessage = "Minimum length for Title is 5 characters")]
+        [MaxLength(30, ErrorMessage = "Maximum length for Title is 30 characters")]
         public string? Title { get; init; }
 
         [Required(ErrorMessage = "Post text is a required field.")]
