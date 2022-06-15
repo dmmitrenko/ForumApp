@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTO;
 
@@ -58,6 +59,23 @@ namespace ForumApp.Presentation.Controllers
                 userTrackChanges: false, blogTrackChanges: true);
 
             return NoContent();    
+        }
+
+        [HttpPatch("{id:guid}")]
+        public IActionResult PartiallyUpdateBlogForUser(Guid userId, Guid id, 
+            [FromBody]JsonPatchDocument<BlogForUpdateDto> patchDoc)
+        {
+            if (patchDoc is null)
+                return BadRequest("patchDoc object sent from client is null.");
+
+            var result = _service.BLogService.GetBlogForPatch(userId, id, 
+                userTrackChanges: false, blogTrackChanges: false);
+
+            patchDoc.ApplyTo(result.blogToPatch);
+
+            _service.BLogService.SaveChangesForPatch(result.blogToPatch, result.blogEntity);
+
+            return NoContent();
         }
     }
 }

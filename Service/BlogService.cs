@@ -93,5 +93,26 @@ namespace Service
             _mapper.Map(blogForUpdate, blogEntity);
             _repository.Save();
         }
+
+        public (BlogForUpdateDto blogToPatch, Blog blogEntity) GetBlogForPatch(Guid userId, Guid id, bool userTrackChanges, bool blogTrackChanges)
+        {
+            var user = _repository.Users.GetUser(userId, userTrackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
+            var blogEntity = _repository.Blogs.GetBlog(userId, id, blogTrackChanges);
+            if (blogEntity is null)
+                throw new BlogNotFoundException(userId);
+
+            var blogToPatch = _mapper.Map<BlogForUpdateDto>(blogEntity);
+
+            return (blogToPatch, blogEntity);
+        }
+
+        public void SaveChangesForPatch(BlogForUpdateDto blogToPatch, Blog blogEntity)
+        {
+            _mapper.Map(blogToPatch, blogEntity);
+            _repository.Save();
+        }
     }
 }
