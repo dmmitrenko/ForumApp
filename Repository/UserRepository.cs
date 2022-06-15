@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -9,24 +10,30 @@ namespace Repository
         {
         }
 
-        public void CreateUser(User user) => Create(user);
-
-        public void DeleteUser(User user) => Delete(user);
-
-        public IEnumerable<User> GetAllUsers(bool trackChanges)
+        public void CreateUser(User user)
         {
-            return FindAll(trackChanges).OrderBy(c => c.Name).ToList();
+            Create(user);
         }
 
-        public IEnumerable<User> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        public void DeleteUser(User user)
         {
-            return FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+            Delete(user);
         }
 
-        public User GetUser(Guid id, bool trackChanges)
+        public async Task<IEnumerable<User>> GetAllUsersAsync(bool trackChanges) 
         {
-            return FindByCondition(u => u.Id.Equals(id), trackChanges)
-                .SingleOrDefault()!;
+             return await FindAll(trackChanges).OrderBy(c => c.Name).ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
+        }
+
+        public async Task<User> GetUserAsync(Guid id, bool trackChanges)
+        {
+            return await FindByCondition(u => u.Id.Equals(id), trackChanges)
+                .SingleOrDefaultAsync()!;
         }
     }
 }

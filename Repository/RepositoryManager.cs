@@ -31,6 +31,6 @@ namespace Repository
 
         public ICommentRepository Comments => _commentRepository.Value;
 
-        public void Save() => _context.SaveChanges();
+        public async Task SaveAsync() => await _context.SaveChangesAsync();
     }
 }

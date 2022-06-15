@@ -21,19 +21,19 @@ namespace Service
             _mapper = mapper;
         }
 
-        public UserDto CreateUser(UserForCreationDto user)
+        public async Task<UserDto> CreateUserAsync(UserForCreationDto user)
         {
             var userEntity = _mapper.Map<User>(user);
 
             _repository.Users.CreateUser(userEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var userToReturn = _mapper.Map<UserDto>(userEntity);
 
             return userToReturn;
         }
 
-        public (IEnumerable<UserDto> users, string ids) CreateUserCollection
+        public async Task<(IEnumerable<UserDto> users, string ids)> CreateUserCollectionAsync
             (IEnumerable<UserForCreationDto> userCollection)
         {
             if (userCollection is null)
@@ -45,7 +45,7 @@ namespace Service
                 _repository.Users.CreateUser(user);
             }
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var userCollectionToReturn = _mapper.Map<IEnumerable<UserDto>>(userEntities);
             var ids = string.Join(",", userCollectionToReturn.Select(u => u.Id));
@@ -53,31 +53,31 @@ namespace Service
             return (users: userCollectionToReturn, ids: ids);
         }
 
-        public void DeleteUser(Guid userId, bool trackChanges)
+        public async Task DeleteUserAsync(Guid userId, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(userId, trackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
             _repository.Users.DeleteUser(user);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public IEnumerable<UserDto> GetAllUsers(bool trackChanges)
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
         {
-            var users = _repository.Users.GetAllUsers(trackChanges);
+            var users = await _repository.Users.GetAllUsersAsync(trackChanges);
 
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
 
             return usersDto;
         }
 
-        public IEnumerable<UserDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        public async Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
 
-            var userEntities = _repository.Users.GetByIds(ids, trackChanges);
+            var userEntities = await _repository.Users.GetByIdsAsync(ids, trackChanges);
             if (ids.Count() != userEntities.Count())
                 throw new CollectionByIdsBadRequestException();
 
@@ -86,9 +86,9 @@ namespace Service
             return usersToReturn;    
         }
 
-        public UserDto GetUser(Guid id, bool trackChanges)
+        public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(id, trackChanges);
+            var user = await _repository.Users.GetUserAsync(id, trackChanges);
 
             if (user is null)
                 throw new UserNotFoundException(id);
@@ -97,14 +97,14 @@ namespace Service
             return userDto;
         }
 
-        public void UpdateUser(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges)
+        public async Task UpdateUserAsync(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges)
         {
-            var userEntity = _repository.Users.GetUser(userId, trackChanges);
+            var userEntity = await _repository.Users.GetUserAsync(userId, trackChanges);
             if (userEntity is null)
                 throw new UserNotFoundException(userId);
 
             _mapper.Map(userForUpdate, userEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }
