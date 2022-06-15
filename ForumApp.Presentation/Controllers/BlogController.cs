@@ -36,6 +36,9 @@ namespace ForumApp.Presentation.Controllers
             if (blog is null)
                 return BadRequest("BlogForCreationDto object is null");
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
             var blogToReturn = _service.BLogService.CreateBlogForUser(userId, blog, trackChanges: false);
 
             return CreatedAtRoute("GetBlogForUser", new { userId, id = blogToReturn.Id }, blogToReturn);
@@ -53,8 +56,11 @@ namespace ForumApp.Presentation.Controllers
         public IActionResult UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
         {
             if (blog is null)
-                return BadRequest();
+                return BadRequest("BlogForUpdateDto object is null.");
 
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+          
             _service.BLogService.UpdateBlogForUser(userId, id, blog, 
                 userTrackChanges: false, blogTrackChanges: true);
 
@@ -71,7 +77,12 @@ namespace ForumApp.Presentation.Controllers
             var result = _service.BLogService.GetBlogForPatch(userId, id, 
                 userTrackChanges: false, blogTrackChanges: false);
 
-            patchDoc.ApplyTo(result.blogToPatch);
+            patchDoc.ApplyTo(result.blogToPatch, ModelState);
+
+            TryValidateModel(result.blogToPatch);
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             _service.BLogService.SaveChangesForPatch(result.blogToPatch, result.blogEntity);
 

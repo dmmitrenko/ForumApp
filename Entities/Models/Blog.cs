@@ -10,7 +10,7 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Title is a required field.")]
         [MinLength(5, ErrorMessage = "Minimum length for title is 5 characters")]
-        [MaxLength(50, ErrorMessage = "Maximum length for title is 50 characters")]
+        [MaxLength(30, ErrorMessage = "Maximum length for title is 50 characters")]
         public string? Title { get; set; }
 
         [Required(ErrorMessage = "Text is a required field.")]
