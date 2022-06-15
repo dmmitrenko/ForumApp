@@ -55,10 +55,8 @@ namespace Service
 
         public async Task DeleteUserAsync(Guid userId, bool trackChanges)
         {
-            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
-            if (user is null)
-                throw new UserNotFoundException(userId);
-
+            var user = await GetUserAndCheckIfItExists(userId, trackChanges);
+            
             _repository.Users.DeleteUser(user);
             await _repository.SaveAsync();
         }
@@ -88,10 +86,7 @@ namespace Service
 
         public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
         {
-            var user = await _repository.Users.GetUserAsync(id, trackChanges);
-
-            if (user is null)
-                throw new UserNotFoundException(id);
+            var user = await GetUserAndCheckIfItExists(id, trackChanges);
 
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
@@ -99,12 +94,19 @@ namespace Service
 
         public async Task UpdateUserAsync(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges)
         {
-            var userEntity = await _repository.Users.GetUserAsync(userId, trackChanges);
-            if (userEntity is null)
-                throw new UserNotFoundException(userId);
-
+            var userEntity = await GetUserAndCheckIfItExists(userId, trackChanges);
+            
             _mapper.Map(userForUpdate, userEntity);
             await _repository.SaveAsync();
+        }
+    
+        private async Task<User> GetUserAndCheckIfItExists(Guid id, bool trackChanges)
+        {
+            var user = await _repository.Users.GetUserAsync(id, trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(id);
+            
+            return user;
         }
     }
 }

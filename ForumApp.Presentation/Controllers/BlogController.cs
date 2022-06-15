@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using ForumApp.Presentation.ActionFilters;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTO;
@@ -33,14 +34,9 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
         {
-            if (blog is null)
-                return BadRequest("BlogForCreationDto object is null");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-
             var blogToReturn = 
                 await _service.BLogService.CreateBlogForUserAsync(userId, blog, trackChanges: false);
 
@@ -56,14 +52,9 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
         {
-            if (blog is null)
-                return BadRequest("BlogForUpdateDto object is null.");
-
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
-          
             await _service.BLogService.UpdateBlogForUserAsync(userId, id, blog, 
                 userTrackChanges: false, blogTrackChanges: true);
 

@@ -1,4 +1,5 @@
-﻿using ForumApp.Presentation.ModelBinders;
+﻿using ForumApp.Presentation.ActionFilters;
+using ForumApp.Presentation.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DTO;
@@ -41,13 +42,10 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
         {
-            if (user is null)
-                return BadRequest("UserForCreationDto object is null");
-
-            var createdUser = 
-                await _service.UserService.CreateUserAsync(user);
+            var createdUser = await _service.UserService.CreateUserAsync(user);
 
             return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
         }
@@ -70,11 +68,9 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
         {
-            if (user is null)
-                return BadRequest("UserForUpdateDto object is null");
-
             await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
 
             return NoContent();
