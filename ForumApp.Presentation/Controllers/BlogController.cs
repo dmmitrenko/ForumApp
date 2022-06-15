@@ -17,21 +17,23 @@ namespace ForumApp.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBlogsForUser(Guid userId)
+        public async Task<IActionResult> GetBlogsForUser(Guid userId)
         {
-            var blogs = _service.BLogService.GetBlogs(userId, trackChanges: false);
+            var blogs = 
+                await _service.BLogService.GetBlogsAsync(userId, trackChanges: false);
             return Ok(blogs);
         }
 
         [HttpGet("{id:guid}", Name = "GetBlogForUser")]
-        public IActionResult GetBlogForUser(Guid userId, Guid id)
+        public async Task<IActionResult> GetBlogForUser(Guid userId, Guid id)
         {
-            var blog = _service.BLogService.GetBlog(userId, id, trackChanges: false);
+            var blog = 
+                await _service.BLogService.GetBlogAsync(userId, id, trackChanges: false);
             return Ok(blog);
         }
 
         [HttpPost]
-        public IActionResult CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
+        public async Task<IActionResult> CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
         {
             if (blog is null)
                 return BadRequest("BlogForCreationDto object is null");
@@ -39,21 +41,22 @@ namespace ForumApp.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            var blogToReturn = _service.BLogService.CreateBlogForUser(userId, blog, trackChanges: false);
+            var blogToReturn = 
+                await _service.BLogService.CreateBlogForUserAsync(userId, blog, trackChanges: false);
 
             return CreatedAtRoute("GetBlogForUser", new { userId, id = blogToReturn.Id }, blogToReturn);
         }
 
         [HttpDelete("{id:guid}")]
-        public IActionResult DeleteBlogForUser(Guid userId, Guid id)
+        public async Task<IActionResult> DeleteBlogForUser(Guid userId, Guid id)
         {
-            _service.BLogService.DeleteBlogForUser(userId, id, trackChanges: false);
+            await _service.BLogService.DeleteBlogForUserAsync(userId, id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
+        public async Task<IActionResult> UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
         {
             if (blog is null)
                 return BadRequest("BlogForUpdateDto object is null.");
@@ -61,20 +64,20 @@ namespace ForumApp.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
           
-            _service.BLogService.UpdateBlogForUser(userId, id, blog, 
+            await _service.BLogService.UpdateBlogForUserAsync(userId, id, blog, 
                 userTrackChanges: false, blogTrackChanges: true);
 
             return NoContent();    
         }
 
         [HttpPatch("{id:guid}")]
-        public IActionResult PartiallyUpdateBlogForUser(Guid userId, Guid id, 
+        public async Task<IActionResult> PartiallyUpdateBlogForUser(Guid userId, Guid id, 
             [FromBody]JsonPatchDocument<BlogForUpdateDto> patchDoc)
         {
             if (patchDoc is null)
                 return BadRequest("patchDoc object sent from client is null.");
 
-            var result = _service.BLogService.GetBlogForPatch(userId, id, 
+            var result = await _service.BLogService.GetBlogForPatchAsync(userId, id, 
                 userTrackChanges: false, blogTrackChanges: false);
 
             patchDoc.ApplyTo(result.blogToPatch, ModelState);
@@ -84,7 +87,7 @@ namespace ForumApp.Presentation.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _service.BLogService.SaveChangesForPatch(result.blogToPatch, result.blogEntity);
+            await _service.BLogService.SaveChangesForPatchAsync(result.blogToPatch, result.blogEntity);
 
             return NoContent();
         }

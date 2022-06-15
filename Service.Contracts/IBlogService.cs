@@ -5,14 +5,14 @@ namespace Service.Contracts
 {
     public interface IBlogService
     {
-        IEnumerable<BlogDto> GetBlogs(Guid userId, bool trackChanges);
-        BlogDto GetBlog(Guid userId, Guid id, bool trackChanges);
-        BlogDto CreateBlogForUser(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges);
-        void DeleteBlogForUser(Guid userId, Guid id, bool trackChanges);
-        void UpdateBlogForUser(Guid userId, Guid id, BlogForUpdateDto blogForUpdate,
+        Task<IEnumerable<BlogDto>> GetBlogsAsync(Guid userId, bool trackChanges);
+        Task<BlogDto> GetBlogAsync(Guid userId, Guid id, bool trackChanges);
+        Task<BlogDto> CreateBlogForUserAsync(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges);
+        Task DeleteBlogForUserAsync(Guid userId, Guid id, bool trackChanges);
+        Task UpdateBlogForUserAsync(Guid userId, Guid id, BlogForUpdateDto blogForUpdate,
             bool userTrackChanges, bool blogTrackChanges);
-        (BlogForUpdateDto blogToPatch, Blog blogEntity) GetBlogForPatch(
+        Task<(BlogForUpdateDto blogToPatch, Blog blogEntity)> GetBlogForPatchAsync(
             Guid userId, Guid id, bool userTrackChanges, bool blogTrackChanges);
-        void SaveChangesForPatch(BlogForUpdateDto blogToPatch, Blog blogEntity);
+        Task SaveChangesForPatchAsync(BlogForUpdateDto blogToPatch, Blog blogEntity);
     }
 }

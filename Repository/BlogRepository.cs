@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -18,16 +19,16 @@ namespace Repository
         public void DeleteBlog(Blog blog) => Delete(blog);
         
 
-        public Blog GetBlog(Guid userId, Guid id, bool trackChanges)
+        public async Task<Blog> GetBlogAsync(Guid userId, Guid id, bool trackChanges)
         {
-            return FindByCondition(item => item.UserId.Equals(userId) && item.Id.Equals(id),
-                trackChanges).SingleOrDefault()!;
+            return await FindByCondition(item => item.UserId.Equals(userId) && item.Id.Equals(id),
+                trackChanges).SingleOrDefaultAsync()!;
         }
 
-        public IEnumerable<Blog> GetBlogs(Guid id, bool trackChanges)
+        public async Task<IEnumerable<Blog>> GetBlogsAsync(Guid id, bool trackChanges)
         {
-            return FindByCondition(b => b.UserId.Equals(id), trackChanges)
-                .OrderBy(b => b.Title).ToList();
+            return await FindByCondition(b => b.UserId.Equals(id), trackChanges)
+                .OrderBy(b => b.Title).ToListAsync();
         }
     }
 }

@@ -21,26 +21,26 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<BlogDto> GetBlogs(Guid userId, bool trackChanges)
+        public async Task<IEnumerable<BlogDto>> GetBlogsAsync(Guid userId, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(userId, trackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
             
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var blogsFromDb = _repository.Blogs.GetBlogs(userId, trackChanges);
+            var blogsFromDb = await _repository.Blogs.GetBlogsAsync(userId, trackChanges);
             var blogsDto = _mapper.Map<IEnumerable<BlogDto>>(blogsFromDb);
 
             return blogsDto;
         }
 
-        public BlogDto GetBlog(Guid userId, Guid id, bool trackChanges)
+        public async Task<BlogDto> GetBlogAsync(Guid userId, Guid id, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(userId, trackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var blogDb = _repository.Blogs.GetBlog(userId,id,trackChanges);
+            var blogDb = await _repository.Blogs.GetBlogAsync(userId,id,trackChanges);
             if (blogDb is null)
                 throw new BlogNotFoundException(id);
 
@@ -48,9 +48,9 @@ namespace Service
             return blog;
         }
 
-        public BlogDto CreateBlogForUser(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges)
+        public async Task<BlogDto> CreateBlogForUserAsync(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(userId, trackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
 
             if (user is null)
                 throw new UserNotFoundException(userId);
@@ -58,49 +58,49 @@ namespace Service
             var blogEntity = _mapper.Map<Blog>(blogForCreation);
 
             _repository.Blogs.CreateBlogForUser(userId, blogEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var blogToReturn = _mapper.Map<BlogDto>(blogEntity);
 
             return blogToReturn;
         }
 
-        public void DeleteBlogForUser(Guid userId, Guid id, bool trackChanges)
+        public async Task DeleteBlogForUserAsync(Guid userId, Guid id, bool trackChanges)
         {
-            var user = _repository.Users.GetUser(userId, trackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var blogForUser = _repository.Blogs.GetBlog(userId, id, trackChanges);
+            var blogForUser = await _repository.Blogs.GetBlogAsync(userId, id, trackChanges);
             if (blogForUser is null)
                 throw new BlogNotFoundException(id);
 
             _repository.Blogs.DeleteBlog(blogForUser);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public void UpdateBlogForUser(Guid userId, Guid id, BlogForUpdateDto blogForUpdate, 
+        public async Task UpdateBlogForUserAsync(Guid userId, Guid id, BlogForUpdateDto blogForUpdate, 
             bool userTrackChanges, bool blogTrackChanges)
         {
-            var user = _repository.Users.GetUser(userId, userTrackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, userTrackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var blogEntity = _repository.Blogs.GetBlog(userId, id, blogTrackChanges);
+            var blogEntity = await _repository.Blogs.GetBlogAsync(userId, id, blogTrackChanges);
             if (blogEntity is null)
                 throw new BlogNotFoundException(id);
 
             _mapper.Map(blogForUpdate, blogEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public (BlogForUpdateDto blogToPatch, Blog blogEntity) GetBlogForPatch(Guid userId, Guid id, bool userTrackChanges, bool blogTrackChanges)
+        public async Task<(BlogForUpdateDto blogToPatch, Blog blogEntity)> GetBlogForPatchAsync(Guid userId, Guid id, bool userTrackChanges, bool blogTrackChanges)
         {
-            var user = _repository.Users.GetUser(userId, userTrackChanges);
+            var user = await _repository.Users.GetUserAsync(userId, userTrackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var blogEntity = _repository.Blogs.GetBlog(userId, id, blogTrackChanges);
+            var blogEntity = await _repository.Blogs.GetBlogAsync(userId, id, blogTrackChanges);
             if (blogEntity is null)
                 throw new BlogNotFoundException(userId);
 
@@ -109,10 +109,10 @@ namespace Service
             return (blogToPatch, blogEntity);
         }
 
-        public void SaveChangesForPatch(BlogForUpdateDto blogToPatch, Blog blogEntity)
+        public async Task SaveChangesForPatchAsync(BlogForUpdateDto blogToPatch, Blog blogEntity)
         {
             _mapper.Map(blogToPatch, blogEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }
