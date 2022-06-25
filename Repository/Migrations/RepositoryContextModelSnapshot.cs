@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Web.Migrations
+namespace ForumApp.Repository.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
     partial class RepositoryContextModelSnapshot : ModelSnapshot
@@ -17,12 +17,12 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Entities.Models.Blog", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.Blog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,8 +41,8 @@ namespace Web.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -57,8 +57,8 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("2409f6fa-464d-4db7-ba7f-3129b62ab0e1"),
-                            DateAdded = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(3881),
-                            LastChange = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(3895),
+                            DateAdded = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9617),
+                            LastChange = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9631),
                             Text = "Bye world!",
                             Title = "About me",
                             UserId = new Guid("11b3a2fc-8d75-45de-9990-00d5d5159c2d")
@@ -66,15 +66,15 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("9fbf9c03-1e67-4cda-89ed-bf3a7a5da11a"),
-                            DateAdded = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(3905),
-                            LastChange = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(3907),
+                            DateAdded = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9641),
+                            LastChange = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9644),
                             Text = "Hello world!",
                             Title = "About me",
                             UserId = new Guid("f5f9c508-5b57-4e17-bb05-5da2183e931e")
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Comment", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,8 +109,8 @@ namespace Web.Migrations
                         {
                             Id = new Guid("fe5d3bc3-cc2e-4060-8dae-fb010dcdd0be"),
                             BlogId = new Guid("2409f6fa-464d-4db7-ba7f-3129b62ab0e1"),
-                            DateAdded = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(4051),
-                            LastChange = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(4054),
+                            DateAdded = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9777),
+                            LastChange = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9781),
                             Text = "Good!",
                             UserId = new Guid("f5f9c508-5b57-4e17-bb05-5da2183e931e")
                         },
@@ -118,14 +118,14 @@ namespace Web.Migrations
                         {
                             Id = new Guid("9b5d639c-200a-49f7-b944-c278bfc33a5a"),
                             BlogId = new Guid("9fbf9c03-1e67-4cda-89ed-bf3a7a5da11a"),
-                            DateAdded = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(4063),
-                            LastChange = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(4066),
+                            DateAdded = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9789),
+                            LastChange = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(9792),
                             Text = "Not good!",
                             UserId = new Guid("11b3a2fc-8d75-45de-9990-00d5d5159c2d")
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,7 +162,7 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("f5f9c508-5b57-4e17-bb05-5da2183e931e"),
-                            DateRegistration = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(2429),
+                            DateRegistration = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(8049),
                             Email = "fil@gmail.com",
                             Name = "Kateryna",
                             Nickname = "filinskaya",
@@ -172,7 +172,7 @@ namespace Web.Migrations
                         new
                         {
                             Id = new Guid("11b3a2fc-8d75-45de-9990-00d5d5159c2d"),
-                            DateRegistration = new DateTime(2022, 6, 1, 14, 32, 19, 970, DateTimeKind.Local).AddTicks(2483),
+                            DateRegistration = new DateTime(2022, 6, 25, 11, 19, 1, 191, DateTimeKind.Local).AddTicks(8101),
                             Email = "dmmytrenko@gmail.com",
                             Name = "Serhii",
                             Nickname = "dmytrenko",
@@ -181,9 +181,9 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.Blog", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.Blog", b =>
                 {
-                    b.HasOne("Entities.Models.User", "User")
+                    b.HasOne("ForumApp.Entities.Models.User", "User")
                         .WithMany("Blogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -192,15 +192,15 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Models.Comment", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.Comment", b =>
                 {
-                    b.HasOne("Entities.Models.Blog", "Blog")
+                    b.HasOne("ForumApp.Entities.Models.Blog", "Blog")
                         .WithMany("Comments")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "User")
+                    b.HasOne("ForumApp.Entities.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -211,12 +211,12 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Models.Blog", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.Blog", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("ForumApp.Entities.Models.User", b =>
                 {
                     b.Navigation("Blogs");
 
