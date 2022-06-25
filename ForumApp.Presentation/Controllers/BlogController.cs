@@ -24,7 +24,7 @@ public class BlogController : ControllerBase
         [FromQuery] BlogParameters blogParameters)
     {
         var pagedResult = 
-            await _service.BLogService.GetBlogsAsync(userId, blogParameters, trackChanges: false);
+            await _service.BLogService.GetBlogsAsync(userId, blogParameters);
 
         Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
 
@@ -35,7 +35,7 @@ public class BlogController : ControllerBase
     public async Task<IActionResult> GetBlogForUser(Guid userId, Guid id)
     {
         var blog = 
-            await _service.BLogService.GetBlogAsync(userId, id, trackChanges: false);
+            await _service.BLogService.GetBlogAsync(userId, id);
         return Ok(blog);
     }
 
@@ -44,7 +44,7 @@ public class BlogController : ControllerBase
     public async Task<IActionResult> CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
     {
         var blogToReturn = 
-            await _service.BLogService.CreateBlogForUserAsync(userId, blog, trackChanges: false);
+            await _service.BLogService.CreateBlogForUserAsync(userId, blog);
 
         return CreatedAtRoute("GetBlogForUser", new { userId, id = blogToReturn.Id }, blogToReturn);
     }
@@ -52,7 +52,7 @@ public class BlogController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteBlogForUser(Guid userId, Guid id)
     {
-        await _service.BLogService.DeleteBlogForUserAsync(userId, id, trackChanges: false);
+        await _service.BLogService.DeleteBlogForUserAsync(userId, id);
 
         return NoContent();
     }
@@ -61,8 +61,7 @@ public class BlogController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
     {
-        await _service.BLogService.UpdateBlogForUserAsync(userId, id, blog, 
-            userTrackChanges: false, blogTrackChanges: true);
+        await _service.BLogService.UpdateBlogForUserAsync(userId, id, blog);
 
         return NoContent();    
     }
@@ -74,8 +73,7 @@ public class BlogController : ControllerBase
         if (patchDoc is null)
             return BadRequest("patchDoc object sent from client is null.");
 
-        var result = await _service.BLogService.GetBlogForPatchAsync(userId, id, 
-            userTrackChanges: false, blogTrackChanges: false);
+        var result = await _service.BLogService.GetBlogForPatchAsync(userId, id);
 
         patchDoc.ApplyTo(result.blogToPatch, ModelState);
 

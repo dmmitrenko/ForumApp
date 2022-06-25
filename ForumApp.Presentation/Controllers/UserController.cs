@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUsers()
     {
         var users = 
-            await _service.UserService.GetAllUsersAsync(trackChanges: false);
+            await _service.UserService.GetAllUsersAsync();
 
         return Ok(users);
     }
@@ -26,7 +26,7 @@ public class UserController : ControllerBase
     [HttpGet("{id:guid}", Name = "UserById")]
     public async Task<IActionResult> GetUser(Guid id)
     {
-        var user = await _service.UserService.GetUserAsync(id, trackChanges: false);
+        var user = await _service.UserService.GetUserAsync(id);
         
         return Ok(user);
     }
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
         typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
         var users = 
-            await _service.UserService.GetByIdsAsync(ids, trackChanges: false);
+            await _service.UserService.GetByIdsAsync(ids);
 
         return Ok(users);
     }
@@ -62,7 +62,7 @@ public class UserController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+        await _service.UserService.DeleteUserAsync(id);
 
         return NoContent();
     }
@@ -71,7 +71,7 @@ public class UserController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
     {
-        await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
+        await _service.UserService.UpdateUserAsync(id, user);
 
         return NoContent();
     }

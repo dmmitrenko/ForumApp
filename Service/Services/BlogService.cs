@@ -24,31 +24,31 @@ public class BlogService : IBlogService
     }
 
     public async Task<(IEnumerable<BlogDto> blogs, MetaData metaData)> GetBlogsAsync(
-        Guid userId, BlogParameters blogParameters, bool trackChanges)
+        Guid userId, BlogParameters blogParameters)
     {
-        await CheckIfUserExists(userId, trackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
         var blogsWithMetaData =
-            await _repository.Blogs.GetBlogsAsync(userId, blogParameters, trackChanges);
+            await _repository.Blogs.GetBlogsAsync(userId, blogParameters, trackChanges: false);
 
         var blogsDto = _mapper.Map<IEnumerable<BlogDto>>(blogsWithMetaData);
 
         return (blogs: blogsDto, metaData: blogsWithMetaData.MetaData)!;
     }
 
-    public async Task<BlogDto> GetBlogAsync(Guid userId, Guid id, bool trackChanges)
+    public async Task<BlogDto> GetBlogAsync(Guid userId, Guid id)
     {
-        await CheckIfUserExists(userId, trackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
-        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges);
+        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges: false);
 
         var blog = _mapper.Map<BlogDto>(blogDb);
         return blog;
     }
 
-    public async Task<BlogDto> CreateBlogForUserAsync(Guid userId, BlogForCreationDto blogForCreation, bool trackChanges)
+    public async Task<BlogDto> CreateBlogForUserAsync(Guid userId, BlogForCreationDto blogForCreation)
     {
-        await CheckIfUserExists(userId, trackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
         var blogEntity = _mapper.Map<Blog>(blogForCreation);
 
@@ -60,33 +60,32 @@ public class BlogService : IBlogService
         return blogToReturn;
     }
 
-    public async Task DeleteBlogForUserAsync(Guid userId, Guid id, bool trackChanges)
+    public async Task DeleteBlogForUserAsync(Guid userId, Guid id)
     {
-        await CheckIfUserExists(userId, trackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
-        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges);
+        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges: false);
 
         _repository.Blogs.DeleteBlog(blogDb);
         await _repository.SaveAsync();
     }
 
-    public async Task UpdateBlogForUserAsync(Guid userId, Guid id, BlogForUpdateDto blogForUpdate,
-        bool userTrackChanges, bool blogTrackChanges)
+    public async Task UpdateBlogForUserAsync(Guid userId, Guid id, BlogForUpdateDto blogForUpdate)
     {
-        await CheckIfUserExists(userId, userTrackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
-        var blogEntity = await GetBlogForUserAndCheckIfItExists(userId, id, blogTrackChanges);
+        var blogEntity = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges: true);
 
         _mapper.Map(blogForUpdate, blogEntity);
         await _repository.SaveAsync();
     }
 
     public async Task<(BlogForUpdateDto blogToPatch, Blog blogEntity)> GetBlogForPatchAsync
-        (Guid userId, Guid id, bool userTrackChanges, bool blogTrackChanges)
+        (Guid userId, Guid id)
     {
-        await CheckIfUserExists(userId, userTrackChanges);
+        await CheckIfUserExists(userId, trackChanges: false);
 
-        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, blogTrackChanges);
+        var blogDb = await GetBlogForUserAndCheckIfItExists(userId, id, trackChanges: false);
 
         var blogToPatch = _mapper.Map<BlogForUpdateDto>(blogDb);
 

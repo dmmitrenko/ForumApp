@@ -54,29 +54,29 @@ public class UserService : IUserService
         return (users: userCollectionToReturn, ids);
     }
 
-    public async Task DeleteUserAsync(Guid userId, bool trackChanges)
+    public async Task DeleteUserAsync(Guid userId)
     {
-        var user = await GetUserAndCheckIfItExists(userId, trackChanges);
+        var user = await GetUserAndCheckIfItExists(userId, trackChanges: false);
 
         _repository.Users.DeleteUser(user);
         await _repository.SaveAsync();
     }
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync(bool trackChanges)
+    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
     {
-        var users = await _repository.Users.GetAllUsersAsync(trackChanges);
+        var users = await _repository.Users.GetAllUsersAsync(trackChanges: false);
 
         var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
 
         return usersDto;
     }
 
-    public async Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+    public async Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<Guid> ids)
     {
         if (ids is null)
             throw new IdParametersBadRequestException();
 
-        var userEntities = await _repository.Users.GetByIdsAsync(ids, trackChanges);
+        var userEntities = await _repository.Users.GetByIdsAsync(ids, trackChanges: false);
         if (ids.Count() != userEntities.Count())
             throw new CollectionByIdsBadRequestException();
 
@@ -85,17 +85,17 @@ public class UserService : IUserService
         return usersToReturn;
     }
 
-    public async Task<UserDto> GetUserAsync(Guid id, bool trackChanges)
+    public async Task<UserDto> GetUserAsync(Guid id)
     {
-        var user = await GetUserAndCheckIfItExists(id, trackChanges);
+        var user = await GetUserAndCheckIfItExists(id, trackChanges: false);
 
         var userDto = _mapper.Map<UserDto>(user);
         return userDto;
     }
 
-    public async Task UpdateUserAsync(Guid userId, UserForUpdateDto userForUpdate, bool trackChanges)
+    public async Task UpdateUserAsync(Guid userId, UserForUpdateDto userForUpdate)
     {
-        var userEntity = await GetUserAndCheckIfItExists(userId, trackChanges);
+        var userEntity = await GetUserAndCheckIfItExists(userId, trackChanges: true);
 
         _mapper.Map(userForUpdate, userEntity);
         await _repository.SaveAsync();
