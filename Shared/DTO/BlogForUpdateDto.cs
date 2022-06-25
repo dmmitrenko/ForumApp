@@ -1,5 +1,3 @@
-﻿namespace Shared.DTO
-{
-    public record BlogForUpdateDto : BlogForManipulationDto;
-    
-}
+﻿namespace ForumApp.Shared.DTO;
+
+public record BlogForUpdateDto : BlogForManipulationDto;

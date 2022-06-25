@@ -1,10 +1,9 @@
-﻿namespace Entities.Exceptions
+﻿namespace ForumApp.Entities.Exceptions;
+
+public class CollectionByIdsBadRequestException : Exception
 {
-    public class CollectionByIdsBadRequestException : Exception
+    public CollectionByIdsBadRequestException()
+        : base("Collection count mismatch comparing to ids.")
     {
-        public CollectionByIdsBadRequestException() 
-            : base("Collection count mismatch comparing to ids.")
-        {
-        }
     }
 }
