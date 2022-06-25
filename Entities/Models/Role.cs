@@ -1,8 +1,7 @@
-﻿namespace Entities.Models
+﻿namespace ForumApp.Entities.Models;
+
+public enum Role
 {
-    public enum Role
-    {
-        Admin = 0,
-        User = 1
-    }
+    Admin = 0,
+    User = 1
 }

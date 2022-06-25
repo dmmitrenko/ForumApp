@@ -1,10 +1,10 @@
-using Web.Extensions;
 using NLog;
-using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using ForumApp.Presentation.ActionFilters;
+using ForumApp.LoggerService;
+using ForumApp.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

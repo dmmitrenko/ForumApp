@@ -1,23 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ForumApp.Repository.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Repository;
 
-namespace Web.ContextFactory
+namespace ForumApp.Web.ContextFactory;
+
+public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
 {
-    public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
+    public RepositoryContext CreateDbContext(string[] args)
     {
-        public RepositoryContext CreateDbContext(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-            var builder = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
-                b => b.MigrationsAssembly("Web"));
+        var builder = new DbContextOptionsBuilder<RepositoryContext>()
+            .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+            b => b.MigrationsAssembly("Web"));
 
-            return new RepositoryContext(builder.Options);
-        }
+        return new RepositoryContext(builder.Options);
     }
 }

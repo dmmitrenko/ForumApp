@@ -1,79 +1,78 @@
 ﻿using ForumApp.Presentation.ActionFilters;
 using ForumApp.Presentation.ModelBinders;
+using ForumApp.Service.Interfaces;
+using ForumApp.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Service.Contracts;
-using Shared.DTO;
 
-namespace ForumApp.Presentation.Controllers
+namespace ForumApp.Presentation.Controllers;
+
+[Route("api/users")]
+[ApiController]
+public class UserController : ControllerBase
 {
-    [Route("api/users")]
-    [ApiController]
-    public class UserController : ControllerBase
+    private readonly IServiceManager _service;
+
+    public UserController(IServiceManager service) => _service = service;
+
+    [HttpGet]
+    public async Task<IActionResult> GetUsers()
     {
-        private readonly IServiceManager _service;
+        var users = 
+            await _service.UserService.GetAllUsersAsync(trackChanges: false);
 
-        public UserController(IServiceManager service) => _service = service;
+        return Ok(users);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = 
-                await _service.UserService.GetAllUsersAsync(trackChanges: false);
+    [HttpGet("{id:guid}", Name = "UserById")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
+        var user = await _service.UserService.GetUserAsync(id, trackChanges: false);
+        
+        return Ok(user);
+    }
 
-            return Ok(users);
-        }
+    [HttpGet("collection/({ids})", Name = "UserCollection")]
+    public async Task<IActionResult> GetUserCollection([ModelBinder(BinderType =
+        typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
+    {
+        var users = 
+            await _service.UserService.GetByIdsAsync(ids, trackChanges: false);
 
-        [HttpGet("{id:guid}", Name = "UserById")]
-        public async Task<IActionResult> GetUser(Guid id)
-        {
-            var user = await _service.UserService.GetUserAsync(id, trackChanges: false);
-            
-            return Ok(user);
-        }
+        return Ok(users);
+    }
 
-        [HttpGet("collection/({ids})", Name = "UserCollection")]
-        public async Task<IActionResult> GetUserCollection([ModelBinder(BinderType =
-            typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
-        {
-            var users = 
-                await _service.UserService.GetByIdsAsync(ids, trackChanges: false);
+    [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
+    {
+        var createdUser = await _service.UserService.CreateUserAsync(user);
 
-            return Ok(users);
-        }
+        return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
+    }
 
-        [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto user)
-        {
-            var createdUser = await _service.UserService.CreateUserAsync(user);
+    [HttpPost("collection")]
+    public async Task<IActionResult> CreateUserCollection([FromBody] IEnumerable<UserForCreationDto> userCollection)
+    {
+        var result = 
+            await _service.UserService.CreateUserCollectionAsync(userCollection);
 
-            return CreatedAtRoute("UserById", new { id = createdUser.Id }, createdUser);
-        }
+        return CreatedAtRoute("UserCollection", new {result.ids}, result.users);
+    }
 
-        [HttpPost("collection")]
-        public async Task<IActionResult> CreateUserCollection([FromBody] IEnumerable<UserForCreationDto> userCollection)
-        {
-            var result = 
-                await _service.UserService.CreateUserCollectionAsync(userCollection);
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        await _service.UserService.DeleteUserAsync(id, trackChanges: false);
 
-            return CreatedAtRoute("UserCollection", new {result.ids}, result.users);
-        }
+        return NoContent();
+    }
 
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
-        {
-            await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+    [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
+    {
+        await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
 
-            return NoContent();
-        }
-
-        [HttpPut("{id:guid}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
-        {
-            await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

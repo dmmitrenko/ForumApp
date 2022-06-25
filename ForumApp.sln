@@ -3,23 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{7572E022-BFE6-4255-AE22-A3F638E2723B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Web", "Web\ForumApp.Web.csproj", "{7572E022-BFE6-4255-AE22-A3F638E2723B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{3223F858-5398-4431-B328-507EEE954AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.LoggerService", "LoggerService\ForumApp.LoggerService.csproj", "{691DF99F-C240-416E-96C4-6A1F4E2D4117}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerService\LoggerService.csproj", "{691DF99F-C240-416E-96C4-6A1F4E2D4117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Entities", "Entities\ForumApp.Entities.csproj", "{93C50737-DDE7-44AE-ABDA-C33AF7466799}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{93C50737-DDE7-44AE-ABDA-C33AF7466799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Repository", "Repository\ForumApp.Repository.csproj", "{4EBA7BD0-E385-477A-B009-16453F885540}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{4EBA7BD0-E385-477A-B009-16453F885540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Service", "Service\ForumApp.Service.csproj", "{03AF361F-DB3C-4E92-B7F0-62FBE3BDDC51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{03AF361F-DB3C-4E92-B7F0-62FBE3BDDC51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Presentation", "ForumApp.Presentation\ForumApp.Presentation.csproj", "{A1EB2C89-418C-451C-84AA-A87632C542D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.Contracts", "Service.Contracts\Service.Contracts.csproj", "{6AFC9B71-56E7-4C0F-ABD9-ABCBD482C0A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumApp.Presentation", "ForumApp.Presentation\ForumApp.Presentation.csproj", "{A1EB2C89-418C-451C-84AA-A87632C542D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{8661A92C-A83A-4416-B2D1-A8C4F395D0B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumApp.Shared", "Shared\ForumApp.Shared.csproj", "{8661A92C-A83A-4416-B2D1-A8C4F395D0B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +27,6 @@ Global
 		{7572E022-BFE6-4255-AE22-A3F638E2723B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7572E022-BFE6-4255-AE22-A3F638E2723B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7572E022-BFE6-4255-AE22-A3F638E2723B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3223F858-5398-4431-B328-507EEE954AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3223F858-5398-4431-B328-507EEE954AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3223F858-5398-4431-B328-507EEE954AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3223F858-5398-4431-B328-507EEE954AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{691DF99F-C240-416E-96C4-6A1F4E2D4117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{691DF99F-C240-416E-96C4-6A1F4E2D4117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{691DF99F-C240-416E-96C4-6A1F4E2D4117}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,10 +43,6 @@ Global
 		{03AF361F-DB3C-4E92-B7F0-62FBE3BDDC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03AF361F-DB3C-4E92-B7F0-62FBE3BDDC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03AF361F-DB3C-4E92-B7F0-62FBE3BDDC51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AFC9B71-56E7-4C0F-ABD9-ABCBD482C0A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AFC9B71-56E7-4C0F-ABD9-ABCBD482C0A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AFC9B71-56E7-4C0F-ABD9-ABCBD482C0A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AFC9B71-56E7-4C0F-ABD9-ABCBD482C0A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1EB2C89-418C-451C-84AA-A87632C542D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1EB2C89-418C-451C-84AA-A87632C542D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1EB2C89-418C-451C-84AA-A87632C542D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
