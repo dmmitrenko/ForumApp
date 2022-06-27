@@ -4,6 +4,7 @@ using ForumApp.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumApp.Repository.Migrations.ExternalIdentity
 {
     [DbContext(typeof(ExternalIdentityContext))]
-    partial class ExternalIdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220627081519_AddedRolesToDb")]
+    partial class AddedRolesToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +53,9 @@ namespace ForumApp.Repository.Migrations.ExternalIdentity
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -125,15 +130,15 @@ namespace ForumApp.Repository.Migrations.ExternalIdentity
                     b.HasData(
                         new
                         {
-                            Id = "826d6ff2-d782-461b-8719-8ea8ec4d0c49",
-                            ConcurrencyStamp = "0daaabbb-79b7-4c77-b6ad-6f3ca99121cc",
+                            Id = "d12c2442-7926-43d9-ad9e-bfb9608bbdb3",
+                            ConcurrencyStamp = "965fe947-1193-4a85-b320-70303bebf00b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "532a8334-186e-4ebf-8917-31dd17c7b9bd",
-                            ConcurrencyStamp = "4e53bbc3-da56-4653-b0a2-c240e9221b9e",
+                            Id = "95306004-0760-46c6-a78e-ddb731b699d3",
+                            ConcurrencyStamp = "8a77cb2b-74e6-49d4-8ef2-88e2d34d6ace",
                             Name = "User",
                             NormalizedName = "USER"
                         });

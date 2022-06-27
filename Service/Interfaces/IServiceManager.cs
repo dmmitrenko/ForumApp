@@ -4,4 +4,5 @@ public interface IServiceManager
 {
     IUserService UserService { get; }
     IBlogService BLogService { get; }
+    IAuthenticationService AuthenticationService { get; }
 }

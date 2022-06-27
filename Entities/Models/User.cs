@@ -9,8 +9,6 @@ public class User : IdentityUser
 
     public string? Surname { get; set; }
 
-    public string? Nickname { get; set; }
-
     public DateTime DateRegistration { get; set; } = DateTime.Now;
 
 }

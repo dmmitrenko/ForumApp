@@ -20,5 +20,8 @@ public class MappingProfile : Profile
         CreateMap<BlogForCreationDto, Blog>();
         CreateMap<BlogForUpdateDto, Blog>().ReverseMap();
         CreateMap<UserForUpdateDto, User>();
+        CreateMap<UserForRegistrationDto, User>()
+            .ForMember(n => n.Name, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(n => n.Surname, opt => opt.MapFrom(src => src.LastName));
     }
 }
