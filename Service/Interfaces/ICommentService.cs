@@ -8,10 +8,10 @@ namespace ForumApp.Service.Interfaces
     {
         Task<(IEnumerable<CommentDto> comments, MetaData metaData)> GetCommentsAsync(Guid postId, CommentParameters commentParameters);
         Task<CommentDto> GetCommentAsync(Guid postId, Guid id);
-        Task<CommentDto> CreateCommentForUserAsync(Guid postId, CommentForCreationDto commentForCreation);
+        Task<CommentDto> CreateCommentForPostAsync(Guid postId, CommentForCreationDto commentForCreation);
         Task DeleteCommentForPostAsync(Guid postId, Guid id);
         Task UpdateCommentForPostAsync(Guid postId, Guid id, CommentForUpdateDto commentForUpdate);
-        Task<(CommentForUpdateDto blogToPatch, Comment commentEntity)> GetCommentForPatchAsync(
+        Task<(CommentForUpdateDto commentToPatch, Comment commentEntity)> GetCommentForPatchAsync(
             Guid postId, Guid id);
         Task SaveChangesForPatchAsync(CommentForUpdateDto commentToPatch, Comment commentEntity);
     }

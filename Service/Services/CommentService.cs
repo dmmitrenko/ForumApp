@@ -45,7 +45,7 @@ public class CommentService : ICommentService
         return comment;
     }
 
-    public async Task<CommentDto> CreateCommentForUserAsync(Guid postId, CommentForCreationDto commentForCreation)
+    public async Task<CommentDto> CreateCommentForPostAsync(Guid postId, CommentForCreationDto commentForCreation)
     {
         await CheckIfPostExists(postId, trackChanges: false);
 
@@ -79,7 +79,7 @@ public class CommentService : ICommentService
         await _repository.SaveAsync();
     }
 
-    public async Task<(CommentForUpdateDto blogToPatch, Comment commentEntity)> GetCommentForPatchAsync(Guid postId, Guid id)
+    public async Task<(CommentForUpdateDto commentToPatch, Comment commentEntity)> GetCommentForPatchAsync(Guid postId, Guid id)
     {
         await CheckIfPostExists(postId, trackChanges: false);
 

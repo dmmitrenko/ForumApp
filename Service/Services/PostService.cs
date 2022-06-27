@@ -48,7 +48,7 @@ public class PostService : IPostService
         await _repository.SaveAsync();
 
         var postCollectionToReturn = _mapper.Map<IEnumerable<PostDto>>(postEntities);
-        var ids = string.Join(",", postEntities.Select(u => u.Id));
+        var ids = string.Join(",", postCollectionToReturn.Select(u => u.Id));
 
         return (posts: postCollectionToReturn, ids: ids);
     }
