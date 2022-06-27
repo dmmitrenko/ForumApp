@@ -4,9 +4,9 @@ namespace ForumApp.Repository.Interfaces;
 
 public interface IPostRepository
 {
-    Task<IEnumerable<Blog>> GetAllPostsAsync(bool trackChanges);
-    Task<Blog> GetPostAsync(Guid id, bool trackChanges);
-    void CreatePost(Blog blog);
-    Task<IEnumerable<Blog>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
-    void DeletePost(Blog blog);
+    Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
+    Task<Post> GetPostAsync(Guid id, bool trackChanges);
+    void CreatePost(Post post);
+    Task<IEnumerable<Post>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+    void DeletePost(Post post);
 }

@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForumApp.Entities.Models;
 
-public class Blog
+public class Post
 {
-    [Column("BlogId")]
+    [Column("PostId")]
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = "Title is a required field.")]

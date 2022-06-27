@@ -13,10 +13,10 @@ public class RepositoryContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new BlogConfiguration());
+        modelBuilder.ApplyConfiguration(new PostConfiguration());
         modelBuilder.ApplyConfiguration(new CommentConfiguration());
     }
 
-    public DbSet<Blog>? Blogs { get; set; }
+    public DbSet<Post>? Blogs { get; set; }
     public DbSet<Comment>? Comments { get; set; }
 }

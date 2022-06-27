@@ -4,33 +4,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ForumApp.Repository.Repositories;
 
-public class PostRepository : RepositoryBase<Blog>, IPostRepository
+public class PostRepository : RepositoryBase<Post>, IPostRepository
 {
     public PostRepository(RepositoryContext context) : base(context)
     {
     }
 
-    public void CreatePost(Blog blog)
+    public void CreatePost(Post post)
     {
-        Create(blog);
+        Create(post);
     }
 
-    public void DeletePost(Blog blog)
+    public void DeletePost(Post post)
     {
-        Delete(blog);
+        Delete(post);
     }
 
-    public async Task<IEnumerable<Blog>> GetAllPostsAsync(bool trackChanges)
+    public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges)
     {
         return await FindAll(trackChanges).OrderBy(c => c.UserId).ToListAsync();
     }
 
-    public async Task<IEnumerable<Blog>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+    public async Task<IEnumerable<Post>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
     {
         return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
     }
 
-    public async Task<Blog> GetPostAsync(Guid id, bool trackChanges)
+    public async Task<Post> GetPostAsync(Guid id, bool trackChanges)
     {
         return await FindByCondition(post => post.Id.Equals(id), trackChanges)
             .SingleOrDefaultAsync();

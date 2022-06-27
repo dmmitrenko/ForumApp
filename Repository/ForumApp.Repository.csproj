@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Shared\ForumApp.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\Repository\" />
+  </ItemGroup>
+
 </Project>

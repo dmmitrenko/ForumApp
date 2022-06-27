@@ -24,7 +24,7 @@ public class PostService : IPostService
 
     public async Task<PostDto> CreatePostAsync(PostForCreationDto post)
     {
-        var postEntity = _mapper.Map<Blog>(post);
+        var postEntity = _mapper.Map<Post>(post);
 
         _repository.Posts.CreatePost(postEntity);
         await _repository.SaveAsync();
@@ -39,7 +39,7 @@ public class PostService : IPostService
         if (postCollection is null)
             throw new PostCollectionBadRequest();
 
-        var postEntities = _mapper.Map<IEnumerable<Blog>>(postCollection);
+        var postEntities = _mapper.Map<IEnumerable<Post>>(postCollection);
         foreach (var item in postEntities)
         {
             _repository.Posts.CreatePost(item);
@@ -100,7 +100,7 @@ public class PostService : IPostService
         await _repository.SaveAsync();
     }
 
-    private async Task<Blog> GetPostAndCheckIfItExists(Guid postId, bool trackChanges)
+    private async Task<Post> GetPostAndCheckIfItExists(Guid postId, bool trackChanges)
     {
         var post = await _repository.Posts.GetPostAsync(postId, trackChanges);
         if (post is null)

@@ -8,9 +8,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Blog, PostDto>();
-        CreateMap<PostForCreationDto, Blog>();
-        CreateMap<PostForUpdateDto, Blog>();
+        CreateMap<Post, PostDto>();
+        CreateMap<PostForCreationDto, Post>();
+        CreateMap<PostForUpdateDto, Post>();
 
         CreateMap<Comment, CommentDto>()
             .ForMember(c => c.DateAdded, opt => opt.MapFrom(src => src.DateAdded.ToString()))

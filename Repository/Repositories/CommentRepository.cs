@@ -13,7 +13,7 @@ internal class CommentRepository : RepositoryBase<Comment>, ICommentRepository
 
     public void CreateCommentForPost(Guid postId, Comment comment)
     {
-        comment.BlogId = postId;
+        comment.PostId = postId;
         Create(comment);
     }
 
@@ -26,19 +26,19 @@ internal class CommentRepository : RepositoryBase<Comment>, ICommentRepository
     {
         return await
             FindByCondition(comment => 
-            comment.BlogId.Equals(postId) && comment.Id.Equals(id),trackChanges)
+            comment.PostId.Equals(postId) && comment.Id.Equals(id),trackChanges)
             .FirstAsync();
     }
 
     public async Task<PagedList<Comment>> GetCommentsAsync(Guid id, CommentParameters commentParameters, bool trackChanges)
     {
-        var comments = await FindByCondition(c => c.BlogId.Equals(id), trackChanges)
+        var comments = await FindByCondition(c => c.PostId.Equals(id), trackChanges)
             .OrderBy(c => c.DateAdded.ToString())
             .Skip((commentParameters.PageNumber - 1) * commentParameters.PageSize)
             .Take(commentParameters.PageSize)
             .ToListAsync();
 
-        var count = await FindByCondition(c => c.BlogId.Equals(id), trackChanges)
+        var count = await FindByCondition(c => c.PostId.Equals(id), trackChanges)
             .CountAsync();
 
         return new PagedList<Comment>(comments, count,
