@@ -27,7 +27,7 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
 
     public async Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
     {
-        return await FindByCondition(x => ids.Contains(x.Id), trackChanges).ToListAsync();
+        return await FindByCondition(x => ids.Contains(Guid.Parse(x.Id)), trackChanges).ToListAsync();
     }
 
     public async Task<User> GetUserAsync(Guid id, bool trackChanges)

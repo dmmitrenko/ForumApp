@@ -1,8 +1,10 @@
-﻿using ForumApp.LoggerService;
+﻿using ForumApp.Entities.Models;
+using ForumApp.LoggerService;
 using ForumApp.Repository.Interfaces;
 using ForumApp.Repository.Repositories;
 using ForumApp.Service.Interfaces;
 using ForumApp.Service.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApp.Web.Extensions;
@@ -39,10 +41,30 @@ public static class ServiceExtensions
         opt.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
     }
 
+    public static void ConfigureExternalIdentityContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ExternalIdentityContext>(opt =>
+            opt.UseSqlServer(configuration.GetConnectionString("externalIdentityConnection")));
+    }
+
     public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
     {
         return builder.AddMvcOptions(config =>
             config.OutputFormatters.Add(new CsvFormatter()));
     }
 
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+        var builder = services.AddIdentity<User, IdentityRole>(n =>
+        {
+            n.Password.RequireDigit = true;
+            n.Password.RequireLowercase = false;
+            n.Password.RequireUppercase = false;
+            n.Password.RequireNonAlphanumeric = false;
+            n.Password.RequiredLength = 10;
+            n.User.RequireUniqueEmail = true;
+        })
+            .AddEntityFrameworkStores<ExternalIdentityContext>()
+            .AddDefaultTokenProviders();
+    }
 }

@@ -12,11 +12,9 @@ public class Comment
     public string? Text { get; set; }
 
     // navigation props
-    [ForeignKey(nameof(User))]
-    public Guid UserId { get; set; }
-    public User? User { get; set; }
-
     [ForeignKey(nameof(Blog))]
     public Guid BlogId { get; set; }
     public Blog? Blog { get; set; }
+
+    public Guid UserId { get; set; }
 }

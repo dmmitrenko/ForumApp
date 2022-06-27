@@ -20,8 +20,7 @@ public class Blog
     public DateTime DateAdded { get; set; } = DateTime.Now;
     public DateTime LastChange { get; set; } = DateTime.Now;
 
-    [ForeignKey(nameof(User))]
+    // navigation props
     public Guid UserId { get; set; }
-    public User? User { get; set; }
     public List<Comment>? Comments { get; set; }
 }
