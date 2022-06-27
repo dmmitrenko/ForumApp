@@ -16,8 +16,8 @@ public class CsvFormatter : TextOutputFormatter
 
     protected override bool CanWriteType(Type? type)
     {
-        if (typeof(UserDto).IsAssignableFrom(type)
-            || typeof(IEnumerable<UserDto>).IsAssignableFrom(type))
+        if (typeof(PostDto).IsAssignableFrom(type)
+            || typeof(IEnumerable<PostDto>).IsAssignableFrom(type))
         {
             return base.CanWriteType(type);
         }
@@ -30,23 +30,23 @@ public class CsvFormatter : TextOutputFormatter
         var responce = context.HttpContext.Response;
         var buffer = new StringBuilder();
 
-        if (context.Object is IEnumerable<UserDto>)
+        if (context.Object is IEnumerable<PostDto>)
         {
-            foreach (var user in (IEnumerable<UserDto>)context.Object)
+            foreach (var post in (IEnumerable<PostDto>)context.Object)
             {
-                FormatCsv(buffer, user);
+                FormatCsv(buffer, post);
             }
         }
         else
         {
-            FormatCsv(buffer, (UserDto)context.Object!);
+            FormatCsv(buffer, (PostDto)context.Object!);
         }
 
         await responce.WriteAsync(buffer.ToString());
     }
 
-    private static void FormatCsv(StringBuilder buffer, UserDto user)
+    private static void FormatCsv(StringBuilder buffer, PostDto post)
     {
-        buffer.AppendLine($"{user.Id},\"{user.FullName},\"{user.Nickname},\"{user.DateRegistration}");
+        buffer.AppendLine($"{post.Id},\"{post.DateAdded},\"{post.LastChange},\"{post.Text}");
     }
 }
