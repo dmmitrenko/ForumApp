@@ -41,7 +41,7 @@ public class BlogController : ControllerBase
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> CreateBlogForUser(Guid userId, [FromBody]BlogForCreationDto blog)
+    public async Task<IActionResult> CreateBlogForUser(Guid userId, [FromBody]CommentForCreationDto blog)
     {
         var blogToReturn = 
             await _service.BLogService.CreateBlogForUserAsync(userId, blog);
@@ -59,7 +59,7 @@ public class BlogController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> UpdateBlogForUser(Guid userId, Guid id, [FromBody] BlogForUpdateDto blog)
+    public async Task<IActionResult> UpdateBlogForUser(Guid userId, Guid id, [FromBody] PostForUpdateDto blog)
     {
         await _service.BLogService.UpdateBlogForUserAsync(userId, id, blog);
 
@@ -68,7 +68,7 @@ public class BlogController : ControllerBase
 
     [HttpPatch("{id:guid}")]
     public async Task<IActionResult> PartiallyUpdateBlogForUser(Guid userId, Guid id, 
-        [FromBody]JsonPatchDocument<BlogForUpdateDto> patchDoc)
+        [FromBody]JsonPatchDocument<PostForUpdateDto> patchDoc)
     {
         if (patchDoc is null)
             return BadRequest("patchDoc object sent from client is null.");
