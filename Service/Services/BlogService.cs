@@ -100,7 +100,7 @@ public class BlogService : IBlogService
 
     private async Task CheckIfUserExists(Guid userId, bool trackChanges)
     {
-        var user = await _repository.Users.GetUserAsync(userId, trackChanges);
+        var user = await _repository.Posts.GetUserAsync(userId, trackChanges);
         if (user is null)
         {
             throw new UserNotFoundException(userId);

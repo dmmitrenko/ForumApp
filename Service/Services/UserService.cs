@@ -26,7 +26,7 @@ public class UserService : IUserService
     {
         var userEntity = _mapper.Map<User>(user);
 
-        _repository.Users.CreateUser(userEntity);
+        _repository.Posts.CreateUser(userEntity);
         await _repository.SaveAsync();
 
         var userToReturn = _mapper.Map<UserDto>(userEntity);
@@ -43,7 +43,7 @@ public class UserService : IUserService
         var userEntities = _mapper.Map<IEnumerable<User>>(userCollection);
         foreach (var user in userEntities)
         {
-            _repository.Users.CreateUser(user);
+            _repository.Posts.CreateUser(user);
         }
 
         await _repository.SaveAsync();
@@ -58,13 +58,13 @@ public class UserService : IUserService
     {
         var user = await GetUserAndCheckIfItExists(userId, trackChanges: false);
 
-        _repository.Users.DeleteUser(user);
+        _repository.Posts.DeleteUser(user);
         await _repository.SaveAsync();
     }
 
     public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
     {
-        var users = await _repository.Users.GetAllUsersAsync(trackChanges: false);
+        var users = await _repository.Posts.GetAllUsersAsync(trackChanges: false);
 
         var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
 
@@ -76,7 +76,7 @@ public class UserService : IUserService
         if (ids is null)
             throw new IdParametersBadRequestException();
 
-        var userEntities = await _repository.Users.GetByIdsAsync(ids, trackChanges: false);
+        var userEntities = await _repository.Posts.GetByIdsAsync(ids, trackChanges: false);
         if (ids.Count() != userEntities.Count())
             throw new CollectionByIdsBadRequestException();
 
@@ -103,7 +103,7 @@ public class UserService : IUserService
 
     private async Task<User> GetUserAndCheckIfItExists(Guid id, bool trackChanges)
     {
-        var user = await _repository.Users.GetUserAsync(id, trackChanges);
+        var user = await _repository.Posts.GetUserAsync(id, trackChanges);
         if (user is null)
             throw new UserNotFoundException(id);
 

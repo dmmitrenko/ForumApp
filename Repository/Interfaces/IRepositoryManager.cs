@@ -2,8 +2,7 @@
 
 public interface IRepositoryManager
 {
-    IUserRepository Users { get; }
-    IBlogRepository Blogs { get; }
+    IPostRepository Posts { get; }
     ICommentRepository Comments { get; }
     Task SaveAsync();
 }
