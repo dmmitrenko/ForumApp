@@ -32,7 +32,9 @@ internal class CommentRepository : RepositoryBase<Comment>, ICommentRepository
 
     public async Task<PagedList<Comment>> GetCommentsAsync(Guid id, CommentParameters commentParameters, bool trackChanges)
     {
-        var comments = await FindByCondition(c => c.PostId.Equals(id), trackChanges)
+        var comments = 
+            await FindByCondition(c => c.PostId.Equals(id) && 
+                (c.DateAdded >= commentParameters.MinDate && c.DateAdded <= commentParameters.MaxDate), trackChanges)
             .OrderBy(c => c.DateAdded.ToString())
             .Skip((commentParameters.PageNumber - 1) * commentParameters.PageSize)
             .Take(commentParameters.PageSize)

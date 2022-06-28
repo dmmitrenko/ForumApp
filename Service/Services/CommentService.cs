@@ -11,8 +11,8 @@ namespace ForumApp.Service.Services;
 
 public class CommentService : ICommentService
 {
-    private IRepositoryManager _repository;
-    private ILoggerManager _logger;
+    private readonly IRepositoryManager _repository;
+    private readonly ILoggerManager _logger;
     private readonly IMapper _mapper;
 
     public CommentService(IRepositoryManager repositoryManager, ILoggerManager logger,
@@ -25,6 +25,9 @@ public class CommentService : ICommentService
 
     public async Task<(IEnumerable<CommentDto> comments, MetaData metaData)> GetCommentsAsync(Guid postId, CommentParameters commentParameters)
     {
+        if (!commentParameters.ValidAgeRange)
+            throw new MaxDateRangeException();
+
         await CheckIfPostExists(postId, trackChanges: false);
 
         var commentsWithMetaData =

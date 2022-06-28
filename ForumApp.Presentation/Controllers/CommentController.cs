@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace ForumApp.Presentation.Controllers;
 
-[Route("api/users/{userId}/blogs")]
+[Route("api/posts/{postId}/comments")]
 [ApiController]
 public class CommentController : ControllerBase
 {
