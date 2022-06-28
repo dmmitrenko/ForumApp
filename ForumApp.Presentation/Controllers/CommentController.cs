@@ -31,7 +31,7 @@ public class CommentController : ControllerBase
         return Ok(pagedResult.metaData);
     }
 
-    [HttpGet("{id:guid}", Name = "GetBlogForUser")]
+    [HttpGet("{id:guid}", Name = "GetCommentForPost")]
     public async Task<IActionResult> GetCommentForPost(Guid postId, Guid id)
     {
         var comment = 

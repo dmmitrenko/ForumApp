@@ -2,6 +2,7 @@
 using ForumApp.Presentation.ModelBinders;
 using ForumApp.Service.Interfaces;
 using ForumApp.Shared.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumApp.Presentation.Controllers;
@@ -15,6 +16,7 @@ public class PostController : ControllerBase
     public PostController(IServiceManager service) => _service = service;
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetPosts()
     {
         var posts = 
