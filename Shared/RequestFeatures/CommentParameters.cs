@@ -6,4 +6,6 @@ public class CommentParameters : RequestParameters
     public DateTime MaxDate { get; set; }
 
     public bool ValidAgeRange => MaxDate > MinDate;
+
+    public string? SearchTerm { get; set; }
 }

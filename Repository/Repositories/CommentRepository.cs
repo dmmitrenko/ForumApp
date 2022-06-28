@@ -1,5 +1,6 @@
 ﻿using ForumApp.Entities.Models;
 using ForumApp.Repository.Interfaces;
+using ForumApp.Repository.Repositories.Extensions;
 using ForumApp.Shared.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,8 +34,9 @@ internal class CommentRepository : RepositoryBase<Comment>, ICommentRepository
     public async Task<PagedList<Comment>> GetCommentsAsync(Guid id, CommentParameters commentParameters, bool trackChanges)
     {
         var comments = 
-            await FindByCondition(c => c.PostId.Equals(id) && 
-                (c.DateAdded >= commentParameters.MinDate && c.DateAdded <= commentParameters.MaxDate), trackChanges)
+            await FindByCondition(c => c.PostId.Equals(id), trackChanges)
+            .FilterComments(commentParameters.MinDate, commentParameters.MaxDate)
+            .Search(commentParameters.SearchTerm!)
             .OrderBy(c => c.DateAdded.ToString())
             .Skip((commentParameters.PageNumber - 1) * commentParameters.PageSize)
             .Take(commentParameters.PageSize)
