@@ -1,4 +1,6 @@
-﻿using ForumApp.Presentation.ActionFilters;
+﻿using ForumApp.Entities.Responses;
+using ForumApp.Presentation.ActionFilters;
+using ForumApp.Presentation.Extensions;
 using ForumApp.Presentation.ModelBinders;
 using ForumApp.Service.Interfaces;
 using ForumApp.Shared.DTO;
@@ -9,11 +11,15 @@ namespace ForumApp.Presentation.Controllers;
 
 [Route("api/posts")]
 [ApiController]
-public class PostController : ControllerBase
+public class PostController : ApiControllerBase
 {
     private readonly IServiceManager _service;
 
-    public PostController(IServiceManager service) => _service = service;
+    public PostController(IServiceManager service)
+    {
+        _service = service;
+    }
+
 
     [HttpGet]
     [Authorize]
@@ -28,7 +34,12 @@ public class PostController : ControllerBase
     [HttpGet("{id:guid}", Name = "PostById")]
     public async Task<IActionResult> GetPost(Guid id)
     {
-        var post = await _service.PostService.GetPostAsync(id);
+        var baseResult = await _service.PostService.GetPostAsync(id);
+
+        if(!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var post = baseResult.GetResult<PostDto>();
         
         return Ok(post);
     }

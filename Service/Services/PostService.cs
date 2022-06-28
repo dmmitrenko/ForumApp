@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ForumApp.Entities.Exceptions;
 using ForumApp.Entities.Models;
+using ForumApp.Entities.Responses;
 using ForumApp.LoggerService;
 using ForumApp.Repository.Interfaces;
 using ForumApp.Service.Interfaces;
@@ -84,12 +85,12 @@ public class PostService : IPostService
         return postsToReturn;
     }
 
-    public async Task<PostDto> GetPostAsync(Guid id)
+    public async Task<ApiBaseResponse> GetPostAsync(Guid id)
     {
         var post = await GetPostAndCheckIfItExists(id, trackChanges: false);
 
         var postDto = _mapper.Map<PostDto>(post);
-        return postDto;
+        return new ApiOkResponse<PostDto>(postDto);
     }
 
     public async Task UpdatePostAsync(Guid postId, PostForUpdateDto postForUpdate)
