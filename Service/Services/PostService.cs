@@ -87,9 +87,13 @@ public class PostService : IPostService
 
     public async Task<ApiBaseResponse> GetPostAsync(Guid id)
     {
-        var post = await GetPostAndCheckIfItExists(id, trackChanges: false);
+        var post = await _repository.Posts.GetPostAsync(id, trackChanges: false);
+
+        if(post is null)
+            return new PostNotFoundResponse(id);
 
         var postDto = _mapper.Map<PostDto>(post);
+
         return new ApiOkResponse<PostDto>(postDto);
     }
 
