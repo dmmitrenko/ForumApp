@@ -5,12 +5,12 @@ namespace ForumApp.Service.Interfaces;
 
 public interface IPostService
 {
-    Task<IEnumerable<PostDto>> GetAllPostsAsync();
+    Task<ApiBaseResponse> GetAllPostsAsync();
     Task<ApiBaseResponse> GetPostAsync(Guid id);
-    Task<PostDto> CreatePostAsync(PostForCreationDto post);
-    Task<IEnumerable<PostDto>> GetByIdsAsync(IEnumerable<Guid> ids);
-    Task<(IEnumerable<PostDto> posts, string ids)> CreatePostCollectionAsync
+    Task<ApiBaseResponse> CreatePostAsync(PostForCreationDto post);
+    Task<ApiBaseResponse> GetByIdsAsync(IEnumerable<Guid> ids);
+    Task<ApiBaseResponse> CreatePostCollectionAsync
         (IEnumerable<PostForCreationDto> postCollection);
-    Task DeletePostAsync(Guid postId);
-    Task UpdatePostAsync(Guid postId, PostForUpdateDto postForUpdate);
+    Task<ApiBaseResponse> DeletePostAsync(Guid postId);
+    Task<ApiBaseResponse> UpdatePostAsync(Guid postId, PostForUpdateDto postForUpdate);
 }

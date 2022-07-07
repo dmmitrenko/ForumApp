@@ -23,7 +23,7 @@ public class PostService : IPostService
         _mapper = mapper;
     }
 
-    public async Task<PostDto> CreatePostAsync(PostForCreationDto post)
+    public async Task<ApiBaseResponse> CreatePostAsync(PostForCreationDto post)
     {
         var postEntity = _mapper.Map<Post>(post);
 
@@ -32,13 +32,13 @@ public class PostService : IPostService
 
         var postToReturn = _mapper.Map<PostDto>(postEntity);
 
-        return postToReturn;
+        return new ApiOkResponse<PostDto>(postToReturn);
     }
 
-    public async Task<(IEnumerable<PostDto> posts, string ids)> CreatePostCollectionAsync(IEnumerable<PostForCreationDto> postCollection)
+    public async Task<ApiBaseResponse> CreatePostCollectionAsync(IEnumerable<PostForCreationDto> postCollection)
     {
         if (postCollection is null)
-            throw new PostCollectionBadRequest();
+            return new PostCollectionBadRequestResponse();
 
         var postEntities = _mapper.Map<IEnumerable<Post>>(postCollection);
         foreach (var item in postEntities)
@@ -51,38 +51,43 @@ public class PostService : IPostService
         var postCollectionToReturn = _mapper.Map<IEnumerable<PostDto>>(postEntities);
         var ids = string.Join(",", postCollectionToReturn.Select(u => u.Id));
 
-        return (posts: postCollectionToReturn, ids: ids);
+        return new ApiOkResponse<(IEnumerable<PostDto> posts, string ids)>((posts: postCollectionToReturn, ids: ids));
     }
 
-    public async Task DeletePostAsync(Guid postId)
+    public async Task<ApiBaseResponse> DeletePostAsync(Guid postId)
     {
-        var post = await GetPostAndCheckIfItExists(postId, trackChanges: false);
+        var post = await _repository.Posts.GetPostAsync(postId, trackChanges: false);
+        
+        if (post is null)
+            return new PostNotFoundResponse(postId);
 
         _repository.Posts.DeletePost(post);
         await _repository.SaveAsync();
+
+        return new ApiOkResponse<bool>(true);
     }
 
-    public async Task<IEnumerable<PostDto>> GetAllPostsAsync()
+    public async Task<ApiBaseResponse> GetAllPostsAsync()
     {
         var posts = await _repository.Posts.GetAllPostsAsync(trackChanges: false);
 
         var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
 
-        return postsDto;
+        return new ApiOkResponse<IEnumerable<PostDto>>(postsDto);
     }
 
-    public async Task<IEnumerable<PostDto>> GetByIdsAsync(IEnumerable<Guid> ids)
+    public async Task<ApiBaseResponse> GetByIdsAsync(IEnumerable<Guid> ids)
     {
         if (ids is null)
-            throw new IdParametersBadRequestException();
+            return new IdParametersBadRequestResponse();
 
         var postEntities = await _repository.Posts.GetByIdsAsync(ids, trackChanges: false);
         if (ids.Count() != postEntities.Count())
-            throw new CollectionByIdsBadRequestException();
+            return new CollectionByIdsBadRequestResponse();
 
         var postsToReturn = _mapper.Map<IEnumerable<PostDto>>(postEntities);
 
-        return postsToReturn;
+        return new ApiOkResponse<IEnumerable<PostDto>>(postsToReturn);
     }
 
     public async Task<ApiBaseResponse> GetPostAsync(Guid id)
@@ -97,20 +102,17 @@ public class PostService : IPostService
         return new ApiOkResponse<PostDto>(postDto);
     }
 
-    public async Task UpdatePostAsync(Guid postId, PostForUpdateDto postForUpdate)
+    public async Task<ApiBaseResponse> UpdatePostAsync(Guid postId, PostForUpdateDto postForUpdate)
     {
-        var postEntity = await GetPostAndCheckIfItExists(postId, trackChanges: false);
+        var postEntity = await _repository.Posts.GetPostAsync(postId, trackChanges: false);
 
-        _mapper.Map(postForUpdate, postEntity);
+        if (postEntity is null)
+            return new PostNotFoundResponse(postId);
+
+        var post = _mapper.Map(postForUpdate, postEntity);
         await _repository.SaveAsync();
-    }
 
-    private async Task<Post> GetPostAndCheckIfItExists(Guid postId, bool trackChanges)
-    {
-        var post = await _repository.Posts.GetPostAsync(postId, trackChanges);
-        if (post is null)
-            throw new PostNotFoundException(postId);
-
-        return post;
+        var postDto = _mapper.Map<PostDto>(post);
+        return new ApiOkResponse<PostDto>(postDto);
     }
 }

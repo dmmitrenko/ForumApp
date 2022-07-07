@@ -25,8 +25,13 @@ public class PostController : ApiControllerBase
     [Authorize]
     public async Task<IActionResult> GetPosts()
     {
-        var posts = 
+        var baseResult = 
             await _service.PostService.GetAllPostsAsync();
+
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var posts = baseResult.GetResult<IEnumerable<PostDto>>();
 
         return Ok(posts);
     }
@@ -48,8 +53,13 @@ public class PostController : ApiControllerBase
     public async Task<IActionResult> GetPostCollection([ModelBinder(BinderType =
         typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
     {
-        var posts = 
+        var baseResult = 
             await _service.PostService.GetByIdsAsync(ids);
+
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var posts = baseResult.GetResult<IEnumerable<PostDto>>();
 
         return Ok(posts);
     }
@@ -58,24 +68,37 @@ public class PostController : ApiControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreatePost([FromBody] PostForCreationDto post)
     {
-        var createdPost = await _service.PostService.CreatePostAsync(post);
+        var baseResult = await _service.PostService.CreatePostAsync(post);
 
-        return CreatedAtRoute("PostById", new { id = createdPost.Id }, createdPost);
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var postResult = baseResult.GetResult<PostDto>();
+
+        return Created("PostById", postResult);
     }
 
     [HttpPost("collection")]
     public async Task<IActionResult> CreatePostCollection([FromBody] IEnumerable<PostForCreationDto> postCollection)
     {
-        var result = 
+        var baseResult = 
             await _service.PostService.CreatePostCollectionAsync(postCollection);
 
-        return CreatedAtRoute("PostCollection", new {result.ids}, result.posts);
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var postResult = baseResult.GetResult<(IEnumerable<PostDto> posts, string ids)>();
+
+        return Created("PostCollection", postResult);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeletePost(Guid id)
     {
-        await _service.PostService.DeletePostAsync(id);
+        var baseResult = await _service.PostService.DeletePostAsync(id);
+
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
 
         return NoContent();
     }
@@ -84,8 +107,13 @@ public class PostController : ApiControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdatePost(Guid id, [FromBody] PostForUpdateDto post)
     {
-        await _service.PostService.UpdatePostAsync(id, post);
+        var baseResult = await _service.PostService.UpdatePostAsync(id, post);
 
-        return NoContent();
+        if (!baseResult.Success)
+            return ProcessError(baseResult);
+
+        var updatedPost = baseResult.GetResult<PostDto>();
+
+        return Ok(updatedPost);
     }
 }

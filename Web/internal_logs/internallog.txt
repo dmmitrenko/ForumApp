@@ -9600,3 +9600,65 @@
 2022-06-29 10:16:37.2975 Trace  Scanning Property LineEnding 'Default' NLog.Targets
 2022-06-29 10:16:37.2975 Trace FileTarget(Name=logfile) has 2 layouts
 2022-06-29 10:16:37.2975 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.SingleProcessFileAppender+Factory
+2022-07-07 12:13:11.7416 Info Message Template Auto Format enabled
+2022-07-07 12:13:11.8002 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-07-07 12:13:11.9894 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-07-07 12:13:11.9894 Debug Setting 'NLog.Targets.FileTarget.fileName' to '.\logs\${shortdate}_logfile.txt'
+2022-07-07 12:13:11.9894 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:13:12.0021 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-07-07 12:13:12.0021 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-07-07 12:13:12.0021 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:13:12.0021 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-07-07 12:13:12.0021 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:13:12.0021 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-07-07 12:13:12.0021 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:13:12.0021 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-07-07 12:13:12.0021 Info Adding target FileTarget(Name=logfile)
+2022-07-07 12:13:12.0021 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-07-07 12:13:12.0170 Trace ParseRulesElement
+2022-07-07 12:13:12.0325 Debug Watching file-filter 'nlog.config' in directory: F:\proj\ForumApp\ForumApp\Web
+2022-07-07 12:13:12.0325 Debug --- NLog configuration dump ---
+2022-07-07 12:13:12.0325 Debug Targets:
+2022-07-07 12:13:12.0325 Debug FileTarget(Name=logfile)
+2022-07-07 12:13:12.0325 Debug Rules:
+2022-07-07 12:13:12.0325 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]
+2022-07-07 12:13:12.0325 Debug --- End of NLog configuration dump ---
+2022-07-07 12:13:12.0325 Trace FindReachableObject<System.Object>:
+2022-07-07 12:13:12.0325 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] writeTo: [ logfile ]'
+2022-07-07 12:13:12.0325 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-07-07 12:13:12.0480 Trace  Scanning FileTarget 'FileTarget(Name=logfile)'
+2022-07-07 12:13:12.0480 Trace   Scanning Property FileName '.\logs\${shortdate}_logfile.txt' NLog.Layouts
+2022-07-07 12:13:12.0480 Trace   Scanning SimpleLayout '.\logs\${shortdate}_logfile.txt'
+2022-07-07 12:13:12.0480 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-07-07 12:13:12.0480 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-07-07 12:13:12.0480 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-07-07 12:13:12.0480 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-07-07 12:13:12.0480 Trace   Scanning Property Layout '${longdate} ${level:uppercase=true} ${message}' NLog.Layouts
+2022-07-07 12:13:12.0480 Trace   Scanning SimpleLayout '${longdate} ${level:uppercase=true} ${message}'
+2022-07-07 12:13:12.0480 Trace    Scanning Property LayoutRenderers 'NLog.LayoutRenderers.LayoutRenderer[]' System.Collections.Generic
+2022-07-07 12:13:12.0480 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-07-07 12:13:12.0480 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-07-07 12:13:12.0480 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-07-07 12:13:12.0480 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-07-07 12:13:12.0480 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-07-07 12:13:12.0480 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-07-07 12:13:12.0480 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-07-07 12:13:12.0480 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-07-07 12:13:12.0722 Info Validating config: TargetNames=logfile, ConfigItems=12, FilePath=F:\proj\ForumApp\ForumApp\Web\nlog.config
+2022-07-07 12:13:12.1971 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-07-07 12:15:28.3489 Info Message Template Auto Format enabled
+2022-07-07 12:15:28.4919 Debug ScanAssembly('NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-07-07 12:15:28.6377 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-07-07 12:15:28.6429 Debug Setting 'NLog.Targets.FileTarget.fileName' to '.\logs\${shortdate}_logfile.txt'
+2022-07-07 12:15:28.6429 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:15:28.6609 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-07-07 12:15:28.6609 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-07-07 12:15:28.6609 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:15:28.6609 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-07-07 12:15:28.6770 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:15:28.6770 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-07-07 12:15:28.6770 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-07-07 12:15:28.6770 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-07-07 12:15:28.6904 Info Adding target FileTarget(Name=logfile)
+2022-07-07 12:15:28.6904 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-07-07 12:15:28.6904 Trace ParseRulesElement
