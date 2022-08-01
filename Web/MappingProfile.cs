@@ -1,25 +1,25 @@
 ﻿using AutoMapper;
-using Entities.Models;
-using Shared.DTO;
+using ForumApp.Entities.Models;
+using ForumApp.Shared.DTO;
 
-namespace Web
+namespace ForumApp.Web;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<User, UserDto>().ForMember(c => c.DateRegistration,
-                opt => opt.MapFrom(x => x.DateRegistration.ToString()))
-                .ForMember(n => n.FullName, 
-                opt => opt.MapFrom(x => x.Name + " " + x.Surname));
+        CreateMap<Post, PostDto>();
+        CreateMap<PostForCreationDto, Post>();
+        CreateMap<PostForUpdateDto, Post>();
 
-            CreateMap<Blog, BlogDto>().ForMember(c => c.DateAdded,
-                opt => opt.MapFrom(src => src.DateAdded.ToString()));
+        CreateMap<Comment, CommentDto>()
+            .ForMember(c => c.DateAdded, opt => opt.MapFrom(src => src.DateAdded.ToString()))
+            .ForMember(c => c.LastChange, opt => opt.MapFrom(src => src.LastChange.ToString()));
+        CreateMap<CommentForCreationDto, Comment>();
+        CreateMap<CommentForUpdateDto, Comment>().ReverseMap();
 
-            CreateMap<UserForCreationDto, User>();
-            CreateMap<BlogForCreationDto, Blog>();
-            CreateMap<BlogForUpdateDto, Blog>().ReverseMap();
-            CreateMap<UserForUpdateDto, User>();
-        }
+        CreateMap<UserForRegistrationDto, User>()
+            .ForMember(n => n.Name, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(n => n.Surname, opt => opt.MapFrom(src => src.LastName));
     }
 }

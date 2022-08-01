@@ -1,4 +1,3 @@
-﻿namespace ForumApp.Presentation
-{
-    public static class AssemblyReference{ }
-}
+﻿namespace ForumApp.Presentation;
+
+public static class AssemblyReference{ }

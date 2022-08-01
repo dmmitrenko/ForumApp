@@ -1,35 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ForumApp.Presentation.ActionFilters
+namespace ForumApp.Presentation.ActionFilters;
+
+public class ValidationFilterAttribute : IActionFilter
 {
-    public class ValidationFilterAttribute : IActionFilter
+    public ValidationFilterAttribute() { }
+
+    public void OnActionExecuted(ActionExecutedContext context)
     {
-        public ValidationFilterAttribute() { }
+        //throw new NotImplementedException();
+    }
 
-        public void OnActionExecuted(ActionExecutedContext context)
+    public void OnActionExecuting(ActionExecutingContext context)
+    {
+        var action = context.RouteData.Values["action"];
+        var controller = context.RouteData.Values["controller"];
+
+        var param = context.ActionArguments
+            .SingleOrDefault(x => x.Value!.ToString()!.Contains("Dto")).Value;
+
+        if (param is null)
         {
-            throw new NotImplementedException();
+            context.Result = 
+                new BadRequestObjectResult($"Object is null. Controller: {controller}, action: {action}");
+
+            return;
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            var action = context.RouteData.Values["action"];
-            var controller = context.RouteData.Values["controller"];
-
-            var param = context.ActionArguments
-                .SingleOrDefault(x => x.Value!.ToString()!.Contains("Dto")).Value;
-
-            if (param is null)
-            {
-                context.Result = 
-                    new BadRequestObjectResult($"Object is null. Controller: {controller}, action: {action}");
-
-                return;
-            }
-
-            if (!context.ModelState.IsValid)
-                context.Result = new UnprocessableEntityObjectResult(context.ModelState);
-        }
+        if (!context.ModelState.IsValid)
+            context.Result = new UnprocessableEntityObjectResult(context.ModelState);
     }
 }
